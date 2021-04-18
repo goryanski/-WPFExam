@@ -28,9 +28,7 @@
             <RowDefinition Height="0.05*"/>
             <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.08*"/>
-            <RowDefinition Height="0.05*"/>
-            <RowDefinition Height="0.05*"/>
-            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.15*"/>
             <RowDefinition Height="0.13*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -45,22 +43,22 @@
         <TextBlock Text="Category:"
                    Grid.Row="2"
                    Style="{StaticResource TbStandartStyle}"/>
-        <TextBlock Text="Weight (kg):"                   
+        <TextBlock Text="Weight (kg, use '.'):"                   
                    Grid.Row="3"
                    Style="{StaticResource TbStandartStyle}"/>
-        <TextBlock Text="Prime Cost:"                   
+        <TextBlock Text="Prime Cost (use '.'):"                   
                    Grid.Row="4"
                    Style="{StaticResource TbStandartStyle}"/>
-        <TextBlock Text="Price:"                   
+        <TextBlock Text="Price (use '.'):"                   
                    Grid.Row="5"
                    Style="{StaticResource TbStandartStyle}"/>
-        <TextBlock Text="Photo Path/URL:"                   
+        <TextBlock Text="Amount In Storage:"                   
                    Grid.Row="6"
                    Style="{StaticResource TbStandartStyle}"/>
         <TextBlock Text="Sell by:"                   
                    Grid.Row="7"
                    Style="{StaticResource TbStandartStyle}"/>
-        <TextBlock Text="Amount In Storage:"                   
+        <TextBlock Text="Photo Path/URL:"                   
                    Grid.Row="8"
                    Style="{StaticResource TbStandartStyle}"/>
         <TextBlock Text="Section:"                   
@@ -69,11 +67,7 @@
         <TextBlock Text="Provisioner:"                   
                    Grid.Row="10"
                    Style="{StaticResource TbStandartStyle}"/>
-        
-        <TextBlock Text="Sequel:"                   
-                   Grid.Row="15"
-                   Style="{StaticResource TbStandartStyle}"/>
-<!--#endregion-->
+        <!--#endregion-->
 
         <!--#region Input fields-->
         
@@ -92,12 +86,13 @@
                     materialDesign:TextFieldAssist.HasClearButton="True"
                     materialDesign:TextFieldAssist.UnderlineBrush="Red"
                     materialDesign:ColorZoneAssist.Mode="Inverted"
-                    materialDesign:HintAssist.Hint="Categories"
+                    materialDesign:HintAssist.Hint="{Binding Product.Category.Name}"
                     MinWidth="100"
                     Height="40"
+                    SelectedItem="{Binding SelectedCategory}"
                     x:Name="cbCategories" 
                     ItemsSource="{Binding Categories}" 
-                    SelectionChanged="cbCategories_SelectionChanged">
+                   >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -126,28 +121,31 @@
                  Grid.Column="1" Grid.Row="5"
                  Style="{StaticResource TbxInputStyle}"/>
 
-        <!--PhotoPath-->
-        <TextBox Name="tbPhotoPath" 
-                 Text="{Binding Product.PhotoPath}"
+        <!--AmountInStorage-->
+        <TextBox Name="tbAmountInStorage" 
+                 Text="{Binding Product.AmountInStorage}"
                  Grid.Column="1" Grid.Row="6"
                  Style="{StaticResource TbxInputStyle}"/>
+
         
         <!--Sell by-->
         <DatePicker Grid.Column="1" Grid.Row="7"
                     Width="100"
-                    Text="{Binding Product.SellBy, StringFormat='dd.MM.yyyy'}"
+                    Text="{Binding Product.SellBy,  StringFormat='dd.MM.yyyy'}"
                     materialDesign:HintAssist.Hint="Pick Date"
+                    Name="datePicker"
+                    SelectedDate="{Binding ProductMaximumSaleDate}"
                     HorizontalAlignment="Left"
                     Margin="15 5 0 15"
                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
 
-        <!--AmountInStorage-->
-        <TextBox Name="tbAmountInStorage" 
-                 Text="{Binding Product.AmountInStorage}"
+        <!--PhotoPath-->
+        <TextBox Name="tbPhotoPath" 
+                 Text="{Binding Product.PhotoPath}"
                  Grid.Column="1" Grid.Row="8"
                  Style="{StaticResource TbxInputStyle}"/>
 
-        
+
         <!--Sections-->
         <ComboBox   Grid.Column="1" Grid.Row="9"
                     HorizontalAlignment="Left"
@@ -156,12 +154,12 @@
                     materialDesign:TextFieldAssist.HasClearButton="True"
                     materialDesign:TextFieldAssist.UnderlineBrush="Red"
                     materialDesign:ColorZoneAssist.Mode="Inverted"
-                    materialDesign:HintAssist.Hint="Sections"
+                    materialDesign:HintAssist.Hint="{Binding Product.Section.SectionNumber}"
                     MinWidth="100"
                     Height="40"
                     x:Name="cbSections" 
                     ItemsSource="{Binding Sections}" 
-                    SelectionChanged="cbSections_SelectionChanged">
+                    SelectedItem="{Binding SelectedSection}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -181,12 +179,13 @@
                     materialDesign:TextFieldAssist.HasClearButton="True"
                     materialDesign:TextFieldAssist.UnderlineBrush="Red"
                     materialDesign:ColorZoneAssist.Mode="Inverted"
-                    materialDesign:HintAssist.Hint="Provisioners"
+                    materialDesign:HintAssist.Hint="{Binding Product.Provisioner.Name}"
                     MinWidth="100"
                     Height="40"
                     x:Name="cbProvisioners" 
                     ItemsSource="{Binding Provisioners}" 
-                    SelectionChanged="cbProvisioners_SelectionChanged">
+                    SelectedItem="{Binding SelectedProvisioner}">
+            <!-- SelectionChanged="cbProvisioners_SelectionChanged"-->
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -198,41 +197,22 @@
 <!--#endregion-->
 
 
-
-
-        <TextBox Name="tbAuthor2" 
-                 Text="{Binding AuthorsList[1]}"
-                 Grid.Column="1" Grid.Row="11"
-                 Style="{StaticResource TbxInputStyle}"/>
-        <TextBox Name="tbAuthor3" 
-                 Text="{Binding AuthorsList[2]}"
-                 Grid.Column="1" Grid.Row="12"
-                 Style="{StaticResource TbxInputStyle}"/>
-        <TextBox Name="tbAuthor4" 
-                 Text="{Binding AuthorsList[3]}"
-                 Grid.Column="1" Grid.Row="13"
-                 Style="{StaticResource TbxInputStyle}"/>
-        <TextBox Name="tbAuthor5" 
-                 Text="{Binding AuthorsList[4]}"
-                 Grid.Column="1" Grid.Row="14"
-                 Style="{StaticResource TbxInputStyle}"/>
-        <!--PhotoPath-->
-
-
-        <!--<Button Content="Cancel"
-                Click="ButtonCancel_Click"
+        <Button Content="Cancel"
+                Name="btnCancel"
+                Click="BtnCancel_Click"
                 VerticalAlignment="Bottom" HorizontalAlignment="Right"
                 Grid.Row="17"
                 Width="100" Height="40"
-                Style="{StaticResource btnStandartStyle}"
+                Style="{StaticResource BtnStandartStyle}"
                 Margin="0 0 0 20"/>
         <Button Content="Save"
-                Click="ButtonSave_Click"
+                Name="btnSave"
+                Click="BtnSave_Click"
+                Command="{Binding SaveCommand}"
                 VerticalAlignment="Bottom" HorizontalAlignment="Center"
                 Grid.Row="17" Grid.Column="1"
                 Width="100" Height="40"
-                Style="{StaticResource btnStandartStyle}"
-                Margin="0 0 0 20"/>-->
-
+                Style="{StaticResource BtnStandartStyle}"
+                Margin="0 0 0 20"/>
     </Grid>
 </Window>

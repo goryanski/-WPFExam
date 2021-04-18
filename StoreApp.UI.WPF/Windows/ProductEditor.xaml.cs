@@ -34,6 +34,7 @@ namespace StoreApp.UI.WPF.Windows
             DataContext = new ProductEditorViewModel(productId);
             Act = action;
             SetTitle();
+           
         }
 
         private void SetTitle()
@@ -65,6 +66,16 @@ namespace StoreApp.UI.WPF.Windows
         }
 
         private void cbProvisioners_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
 
         }
