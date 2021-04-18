@@ -1,0 +1,125 @@
+﻿<Application x:Class="StoreApp.UI.WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:StoreApp.UI.WPF"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <!--Buttons-->
+            <Style x:Key="BtnStandartStyle" TargetType="Button"
+                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                <Style.Setters>
+                    <Setter Property="Background" Value="#4dc4ff"/>
+                    <Setter Property="FontFamily" Value="Perpetua Titling MT"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                    <Setter Property="FontSize" Value="12"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Height" Value="60"/>
+                    <Setter Property="Margin" Value="5"/>
+                </Style.Setters>
+            </Style>
+            <Style x:Key="BtnOrangeStyle" TargetType="Button" 
+               BasedOn="{StaticResource BtnStandartStyle}">
+                <Style.Setters>
+                    <Setter Property="Background" Value="Orange"/>
+                </Style.Setters>
+            </Style>
+            <Style x:Key="BtnFireOrangeStyle" TargetType="Button" 
+               BasedOn="{StaticResource BtnStandartStyle}">
+                <Style.Setters>
+                    <Setter Property="Background" Value="#ff6f00"/>
+                </Style.Setters>
+            </Style>
+
+            
+            <!--TextBlock in Buttons-->
+            <Style x:Key="TbButtonStyle" TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                    <Setter Property="TextAlignment" Value="Center"/>
+                </Style.Setters>
+            </Style>
+
+
+            <!--Right panel Expanders-->
+            <Style x:Key="ExpanderStyle" TargetType="Expander"
+                    BasedOn="{StaticResource  MaterialDesignExpander}">
+                <Style.Setters>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="FontFamily" Value="Perpetua Titling MT"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                </Style.Setters>
+            </Style>
+            <Style x:Key="BorderStyle" TargetType="Border">
+                <Style.Setters>
+                    <Setter Property="Background" Value="#4dc4ff"/>
+                    <Setter Property="Height" Value="1"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                </Style.Setters>
+            </Style>
+            <Style x:Key="TbExpanderStyle" TargetType="TextBox">
+                <Style.Setters>
+                    <Setter Property="FontFamily" Value="Roboto"/>
+                    <Setter Property="FontWeight" Value="Normal"/>
+                    <Setter Property="Height" Value="18"/>
+                </Style.Setters>
+            </Style>
+            <Style x:Key="TblExpanderStyle" TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="FontFamily" Value="Roboto"/>
+                    <Setter Property="FontWeight" Value="Normal"/>
+                    <Setter Property="Margin" Value="0 10 0 0"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style.Setters>
+            </Style>
+
+
+            <!--ShowProduct, ProductEditor-->
+            <Style x:Key="TbStandartStyle" TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="FontStyle" Value="Italic"/>
+                </Style.Setters>
+            </Style>
+
+
+            <!--TextBox inputFields - ProductEditor-->
+            <Style x:Key="TbxInputStyle" TargetType="TextBox"
+                    BasedOn="{StaticResource  MaterialDesignTextBoxBase}">
+                <Style.Setters>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="BorderBrush" Value="#4dc4ff"/>
+                    <Setter Property="Margin" Value="20 0 20 3"/>
+                </Style.Setters>
+            </Style>
+
+
+
+
+
+
+            <Style x:Key="MyListBox" TargetType="ListBox">
+                <Style.Setters>
+                    
+                </Style.Setters>
+            </Style>
+            <Style x:Key="MyTextBox" TargetType="TextBox">
+                <Style.Setters>
+
+                </Style.Setters>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

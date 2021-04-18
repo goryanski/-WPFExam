@@ -1,0 +1,191 @@
+﻿<Window x:Class="StoreApp.UI.WPF.Windows.ShowProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StoreApp.UI.WPF.Windows"
+        mc:Ignorable="d"
+        
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"     
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        
+        Title="ViewProduct" Height="600" Width="350"  Background="#b3e4fc">
+
+    <Window.Resources>
+        <Style x:Key="TbStyle" TargetType="TextBlock"  
+               BasedOn="{StaticResource TbStandartStyle}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="DigitsStyle" TargetType="TextBlock"  
+               BasedOn="{StaticResource TbStyle}">
+            <Setter Property="Foreground" Value="#870000"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+        </Style>
+        <Style x:Key="LblStyle" TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="StackPanelStyle" TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+    </Window.Resources>
+
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.04*"/>
+            <RowDefinition Height="0.12*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.05*"/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+
+        
+        <!--Name-->
+        <Button Grid.Row="1"
+                materialDesign:ButtonAssist.CornerRadius="10"
+                Style="{StaticResource BtnFireOrangeStyle}"
+                Background="#b3e4fc"
+                Margin="20 0 20 0">
+            <TextBlock Style="{StaticResource TbButtonStyle}"
+                       Text="{Binding SelectedProduct.Name}"
+                       Foreground="#870000"
+                       FontWeight="DemiBold"/>
+        </Button>
+
+        
+        <!--Category-->
+        <TextBlock Text="{Binding SelectedProduct.Category.Name}"
+                   Grid.Row="2"
+                   Foreground="#870000"
+                   FontWeight="Bold"
+                   Style="{StaticResource TbStyle}"/>
+        
+        
+        <!--Weight-->
+        <StackPanel Style="{StaticResource StackPanelStyle}"
+                    Grid.Row="3">
+            <TextBlock Style="{StaticResource TbStyle}"
+                       Text="Weight: "/>
+            <TextBlock Style="{StaticResource DigitsStyle}"
+                       Text="{Binding SelectedProduct.Weight}"/>
+            <TextBlock Style="{StaticResource TbStyle}"
+                       Text=" kg"/>
+        </StackPanel>
+
+        
+        <!--Prime cost-->
+        <Label Grid.Row="4"  
+               Style="{StaticResource LblStyle}">
+            <Label.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Prime cost: "
+                           Style="{StaticResource TbStyle}"/>
+                    <TextBlock Text="{Binding SelectedProduct.PrimeCost}"
+                               Style="{StaticResource DigitsStyle}"/>
+                </StackPanel>
+            </Label.Content>
+        </Label>
+
+        
+        <!--Price-->
+        <Label Grid.Row="5"  
+               Style="{StaticResource LblStyle}">
+            <Label.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Price: "
+                           Style="{StaticResource TbStyle}"/>
+                    <TextBlock Text="{Binding SelectedProduct.Price}"
+                               Style="{StaticResource DigitsStyle}"/>
+                </StackPanel>
+            </Label.Content>
+        </Label>
+
+        
+        <!--Arrival date-->
+        <StackPanel Grid.Row="6"
+                    Style="{StaticResource StackPanelStyle}">
+            <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                       Text="Arrival date: "/>
+            <TextBlock Style="{StaticResource DigitsStyle}"
+                       Text="{Binding SelectedProduct.ArrivalDate, StringFormat='dd/MM/yyyy'}"/>
+        </StackPanel>
+
+        
+        <!--Sell by-->
+        <StackPanel Grid.Row="7"
+                    Style="{StaticResource StackPanelStyle}">
+            <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                       Text="Sell by: "/>
+            <TextBlock Style="{StaticResource DigitsStyle}"
+                       Text="{Binding SelectedProduct.SellBy, StringFormat='dd/MM/yyyy'}"/>
+        </StackPanel>
+
+        
+        <!--In storage-->
+        <StackPanel Grid.Row="8"
+                    Style="{StaticResource StackPanelStyle}">
+            <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                       Text="In storage: "/>
+            <TextBlock Style="{StaticResource DigitsStyle}"
+                       Text="{Binding SelectedProduct.AmountInStorage}"/>
+        </StackPanel>
+
+        
+        <!--Provisioner-->
+        <Label Grid.Row="9"  
+                Style="{StaticResource LblStyle}">
+            <Label.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Provisioner: "
+                           Style="{StaticResource TbStyle}"/>
+                    <TextBlock Text="{Binding SelectedProduct.Provisioner.Name}"                 
+                           Style="{StaticResource TbStyle}"/>
+                </StackPanel>
+            </Label.Content>
+        </Label>
+
+        
+        <!--Section-->
+        <Label Grid.Row="10"  
+                Style="{StaticResource LblStyle}">
+            <Label.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Section: "
+                           Style="{StaticResource TbStyle}"/>
+                    <TextBlock Text="{Binding SelectedProduct.Section.SectionNumber}"                 
+                           Style="{StaticResource DigitsStyle}"/>
+                </StackPanel>
+            </Label.Content>
+        </Label>
+        <TextBlock Text="{Binding AuthorsList}"
+                   Grid.Row="10"
+                   Style="{StaticResource TbStyle}"/>
+
+
+
+        <Button Content="Ok"
+                Click="BtnOk_Click"
+                Style="{StaticResource BtnStandartStyle}"
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Center"
+                materialDesign:ButtonAssist.CornerRadius="10"
+                Grid.Row="12"
+                Width="100" Height="40"
+                Margin="0 0 0 20"/>
+    </Grid>
+</Window>
