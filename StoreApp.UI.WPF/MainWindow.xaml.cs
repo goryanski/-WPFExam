@@ -310,11 +310,19 @@ namespace StoreApp.UI.WPF
             if (wnd.ShowDialog() == true)
             {
                 //wnd.FilledProduct.SelectionLabel = "Selected";
+                //viewModel.ListBoxSelectedProduct = null;
+                //viewModel.UpdateSelectedProduct(wnd.FilledProduct);
                 viewModel.ListBoxSelectedProduct = null;
-                viewModel.UpdateSelectedProduct(wnd.FilledProduct);
+                viewModel.UpdateProducts(/*wnd.FilledProduct*/);
+                //UpdateProducts(wnd);
             }
         }
 
+        //private async void UpdateProducts(ProductEditor wnd)
+        //{
+            
+        //    await 
+        //}
 
 
         private void CbShops_SelectionChanged(object sender, SelectionChangedEventArgs e)

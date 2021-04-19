@@ -166,7 +166,6 @@ namespace StoreApp.UI.WPF.ViewModels
                 else if(action == Action.Edit)
                 {
                     await services.ProductsMapService.UpdateProduct(Product);
-                    ;
                     OperationCompleteEvent?.Invoke(Product);
                 }
             }

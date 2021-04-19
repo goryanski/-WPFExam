@@ -47,13 +47,24 @@ namespace StoreApp.UI.WPF.ViewModels
             Categories.AddRange(await services.CategoriesMapService.GetAllCategories());
             Shops.AddRange(await services.ShopsMapService.GetAllShops());
 
+            //if (Categories[0] != null)
+            //{
+            //    Products.AddRange(await services.ProductsMapService.GetProductsByCategory(Categories[0].Id));
+            //}
+            await loadDefaultProducts();
+            CheckProductsCount();
+            ProductsLoadCompleteEvent?.Invoke();
+        }
+
+        private async Task loadDefaultProducts()
+        {
             if (Categories[0] != null)
             {
                 Products.AddRange(await services.ProductsMapService.GetProductsByCategory(Categories[0].Id));
             }
-            CheckProductsCount();
-            ProductsLoadCompleteEvent?.Invoke();
         }
+
+
 
         #region GetProductsBySelectedCategory
         CategoryUI _selectedCategory;
@@ -218,8 +229,22 @@ namespace StoreApp.UI.WPF.ViewModels
         public ProcessCommand EditProductCommand => _editProductCommand ?? (_editProductCommand = new ProcessCommand(obj =>
         {
             RunAction(RIghtPanelActions.Edit);
-        }));  
+        }));
 
+        internal async void UpdateProducts()
+        {
+            // we don't know what is new product category and what is current filter was selected for products list (new products, popular products...), so just refresh products list - we load products by default category, and rest will be update automatically
+            Products.Clear();
+            if (SelectedCategory != Categories[0])
+            {
+                SelectedCategory = Categories[0];
+            }
+            else
+            {
+                // if we was at the same category, when adding or editing of product - reload this category products list
+                await loadDefaultProducts();
+            }
+        }
         #endregion
 
         #region  Delele, WriteOff, SendToShop, PutToBasket
@@ -349,15 +374,7 @@ namespace StoreApp.UI.WPF.ViewModels
             }
         }
 
-        internal void UpdateSelectedProduct(ProductUI filledProduct)
-        {
-            
-            var srchProduct = Products.FirstOrDefault(predicate => predicate.Id == filledProduct.Id);
-            int idx = Products.IndexOf(srchProduct);
-            Products.Remove(srchProduct);
-            Products.Insert(idx, filledProduct);
 
-        }
         #endregion
 
         #region Add category 

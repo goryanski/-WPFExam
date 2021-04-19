@@ -24,7 +24,6 @@ namespace StoreApp.DAL.Repositories.Warehouse
             // get entity from DB
             var srchEntity = await Get(entity.Id);
             // change entity
-            ;
             srchEntity.Name = entity.Name;
             srchEntity.Weight = entity.Weight;
             srchEntity.PrimeCost = entity.PrimeCost;
@@ -43,11 +42,9 @@ namespace StoreApp.DAL.Repositories.Warehouse
             //srchEntity.Section = entity.Section;
             srchEntity.SectionId = entity.SectionId;
             // change entity state
-            ;
             db.Entry(srchEntity).State = EntityState.Modified;
             // save changes
             await db.SaveChangesAsync();
-            ;
         }
 
         public override async Task<List<Product>> GetAll(Func<Product, bool> predicate)
