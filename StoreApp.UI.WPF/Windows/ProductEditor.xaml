@@ -207,7 +207,6 @@
                 Margin="0 0 0 20"/>
         <Button Content="Save"
                 Name="btnSave"
-                Click="BtnSave_Click"
                 Command="{Binding SaveCommand}"
                 VerticalAlignment="Bottom" HorizontalAlignment="Center"
                 Grid.Row="17" Grid.Column="1"

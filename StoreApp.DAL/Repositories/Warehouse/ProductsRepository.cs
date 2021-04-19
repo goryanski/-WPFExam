@@ -17,6 +17,37 @@ namespace StoreApp.DAL.Repositories.Warehouse
 
         public override async Task Update(Product entity)
         {
+            //await Task.Run( async () => 
+            //{
+
+            //});
+            // get entity from DB
+            var srchEntity = await Get(entity.Id);
+            // change entity
+            ;
+            srchEntity.Name = entity.Name;
+            srchEntity.Weight = entity.Weight;
+            srchEntity.PrimeCost = entity.PrimeCost;
+            srchEntity.Price = entity.Price;
+            srchEntity.IsAvailable = entity.IsAvailable;
+            srchEntity.ArrivalDate = entity.ArrivalDate;
+            srchEntity.SellBy = entity.SellBy;
+            srchEntity.AmountInStorage = entity.AmountInStorage;
+            srchEntity.Rating = entity.Rating;
+            srchEntity.PhotoPath = entity.PhotoPath;
+            srchEntity.SelectionLabel = entity.SelectionLabel;
+            //srchEntity.Category = entity.Category;
+            srchEntity.CategoryId = entity.CategoryId;
+            //srchEntity.Provisioner = entity.Provisioner;
+            srchEntity.ProvisionerId = entity.ProvisionerId;
+            //srchEntity.Section = entity.Section;
+            srchEntity.SectionId = entity.SectionId;
+            // change entity state
+            ;
+            db.Entry(srchEntity).State = EntityState.Modified;
+            // save changes
+            await db.SaveChangesAsync();
+            ;
         }
 
         public override async Task<List<Product>> GetAll(Func<Product, bool> predicate)

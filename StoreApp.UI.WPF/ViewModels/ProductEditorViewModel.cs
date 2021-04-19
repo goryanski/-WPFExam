@@ -24,9 +24,21 @@ namespace StoreApp.UI.WPF.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         MapServicesStorage services = MapServicesStorage.Instance;
-        ProductValidator validator = new ProductValidator(); 
-
-
+        ProductValidator validator = new ProductValidator();
+        //public int SelectedProductId { get; set; }
+        int _id;
+        public int SelectedProductId
+        {
+            get => _id;
+            set
+            {
+                if (value != _id)
+                {
+                    _id = value;
+                    Init();
+                }
+            }
+        }
 
         ProductUI _product;
         public ProductUI Product
@@ -101,18 +113,18 @@ namespace StoreApp.UI.WPF.ViewModels
         public ObservableCollection<WarehouseSectionUI> Sections { get; set; } = new ObservableCollection<WarehouseSectionUI>();
         public ObservableCollection<ProvisionerUI> Provisioners { get; set; } = new ObservableCollection<ProvisionerUI>();
 
-        public ProductEditorViewModel(int productId)
+        public ProductEditorViewModel()
         {
-            Init(productId);
+            //Init();
         }
 
-        private async void Init(int productId)
+        private async void Init()
         {
             // if editing show product info and set state
-            if (productId != 0)
+            if (SelectedProductId != 0)
             {
                 action = Action.Edit;
-                Product = await services.ProductsMapService.GetFullProductById(productId);
+                Product = await services.ProductsMapService.GetFullProductById(SelectedProductId);
             }
             else
             {
@@ -128,6 +140,8 @@ namespace StoreApp.UI.WPF.ViewModels
         }
 
         #region Save product
+
+        public event Action<ProductUI> OperationCompleteEvent;
         private ProcessCommand _saveCommand;
 
         public ProcessCommand SaveCommand => _saveCommand ?? (_saveCommand = new ProcessCommand(obj =>
@@ -138,11 +152,23 @@ namespace StoreApp.UI.WPF.ViewModels
         private async void SaveProduct()
         {
             // thanks to two-way binding, we can use the same object for validation, instead of use text boxes in the UI to get the entered information 
-            // except comboboxes add datePicker
+            // except comboboxes and datePicker
             GetWindowFieldsInfo();
             if (validator.IsProductValid(Product))
             {
-                // все готово с выводом и валидацией, осталось только написать логику для добавления и для редактирования
+                if(action == Action.Add)
+                {
+                    await services.ProductsMapService.CreateProduct(Product);
+                    // discover prod id and send it too 
+                    // or jusr refresh collection
+                    OperationCompleteEvent?.Invoke(Product);
+                }
+                else if(action == Action.Edit)
+                {
+                    await services.ProductsMapService.UpdateProduct(Product);
+                    ;
+                    OperationCompleteEvent?.Invoke(Product);
+                }
             }
         }
 

@@ -296,13 +296,7 @@ namespace StoreApp.UI.WPF
             };
             if (wnd.ShowDialog() == true)
             {
-                //AnblockAuthenticatedUserActions();
-                //btnLogin.Content = "Log out";
-
-                //if (wnd.User.IsAdmin)
-                //{
-                //    btnAdminPanel.Visibility = Visibility.Visible;
-                //}
+                
             }
         }
 
@@ -315,13 +309,9 @@ namespace StoreApp.UI.WPF
             };
             if (wnd.ShowDialog() == true)
             {
-                //AnblockAuthenticatedUserActions();
-                //btnLogin.Content = "Log out";
-
-                //if (wnd.User.IsAdmin)
-                //{
-                //    btnAdminPanel.Visibility = Visibility.Visible;
-                //}
+                //wnd.FilledProduct.SelectionLabel = "Selected";
+                viewModel.ListBoxSelectedProduct = null;
+                viewModel.UpdateSelectedProduct(wnd.FilledProduct);
             }
         }
 

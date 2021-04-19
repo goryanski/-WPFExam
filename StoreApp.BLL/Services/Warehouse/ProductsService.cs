@@ -21,9 +21,9 @@ namespace StoreApp.BLL.Services.Warehouse
             this.uow = uow;
         }
 
-        public void CreateProduct(ProductDTO product)
+        public async Task CreateProduct(ProductDTO product)
         {
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 var result = objectMapper.Mapper.Map<Product>(product);
                 await uow.ProductsRepository.Create(result);
@@ -82,6 +82,12 @@ namespace StoreApp.BLL.Services.Warehouse
         {
             var result = objectMapper.Mapper.Map<Product>(productDTO);
             await uow.ProductsRepository.UpdateProductCount(result, newValue);
+        }
+
+        public async Task UpdateProduct(ProductDTO productDTO)
+        {
+            var result = objectMapper.Mapper.Map<Product>(productDTO);
+            await uow.ProductsRepository.Update(result);
         }
 
         public async Task DeleteWholeProduct(ProductDTO productDTO)

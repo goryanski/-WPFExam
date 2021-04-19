@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using StoreApp.UI.WPF.Models;
+using StoreApp.UI.WPF.Models.Warehouse;
 using StoreApp.UI.WPF.ViewModels;
 
 namespace StoreApp.UI.WPF.Windows
@@ -19,6 +20,7 @@ namespace StoreApp.UI.WPF.Windows
     /// </summary>
     public partial class ProductEditor : Window
     {
+        public ProductUI FilledProduct { get; set; }
         public enum Action
         {
             Edit,
@@ -26,15 +28,26 @@ namespace StoreApp.UI.WPF.Windows
         }
 
         public Action Act { get; set; }
-        //ProductEditorViewModel viewModel = new ProductEditorViewModel();
+        ProductEditorViewModel viewModel = new ProductEditorViewModel();
 
         public ProductEditor(Action action, int productId = 0)
         {
             InitializeComponent();
-            DataContext = new ProductEditorViewModel(productId);
+            //DataContext = new ProductEditorViewModel(productId);
+            DataContext = viewModel;
+            viewModel.SelectedProductId = productId;
+            
+            viewModel.OperationCompleteEvent += ViewModel_OperationCompleteEvent;
             Act = action;
             SetTitle();
            
+        }
+
+        private void ViewModel_OperationCompleteEvent(ProductUI product)
+        {
+            FilledProduct = product;
+            DialogResult = true;
+            Close();
         }
 
         private void SetTitle()
@@ -50,34 +63,9 @@ namespace StoreApp.UI.WPF.Windows
             }
         }
 
-        private void cbCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void cbSections_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void cbSections_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void cbProvisioners_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void BtnSave_Click(object sender, RoutedEventArgs e)
-        {
-
+            Close();
         }
     }
 }

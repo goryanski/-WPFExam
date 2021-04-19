@@ -348,6 +348,16 @@ namespace StoreApp.UI.WPF.ViewModels
                 }
             }
         }
+
+        internal void UpdateSelectedProduct(ProductUI filledProduct)
+        {
+            
+            var srchProduct = Products.FirstOrDefault(predicate => predicate.Id == filledProduct.Id);
+            int idx = Products.IndexOf(srchProduct);
+            Products.Remove(srchProduct);
+            Products.Insert(idx, filledProduct);
+
+        }
         #endregion
 
         #region Add category 

@@ -16,7 +16,7 @@ namespace StoreApp.UI.WPF.Services.Warehouse
         private ProductDTO GetProductDTO(ProductUI product) => objectMapper.Mapper.Map<ProductDTO>(product);
 
 
-        public void CreateProduct(ProductUI product)
+        public async Task CreateProduct(ProductUI product)
         {
             services.ProductsService.CreateProduct(GetProductDTO(product));
         }
@@ -77,6 +77,11 @@ namespace StoreApp.UI.WPF.Services.Warehouse
         internal async Task DeleteWholeProduct(ProductUI product)
         {
             await services.ProductsService.DeleteWholeProduct(GetProductDTO(product));
+        }
+
+        internal async Task UpdateProduct(ProductUI product)
+        {
+            await services.ProductsService.UpdateProduct(GetProductDTO(product));
         }
     }
 }

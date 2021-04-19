@@ -208,6 +208,7 @@
                                 <!--Photo-->
                                 <Image x:Name="ImagePlace"
                                        Height="140"
+                                       Source="{Binding PhotoPath, IsAsync=True}"
                                        Stretch="Uniform" />
                                 <!--Source="{Binding PhotoPath, IsAsync=True}"-->
 
