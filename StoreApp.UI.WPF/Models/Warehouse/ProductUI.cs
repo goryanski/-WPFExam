@@ -59,6 +59,8 @@ namespace StoreApp.UI.WPF.Models.Warehouse
                 }
             }
         }
+        public int CountToOrder { get; set; }
+        public int ShopId { get; set; }
 
 
         public CategoryUI Category { get; set; }

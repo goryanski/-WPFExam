@@ -38,6 +38,9 @@ namespace StoreApp.BLL.Automapper.Profiles
 
             CreateMap<Shop, ShopDTO>();
             CreateMap<ShopDTO, Shop>();
+
+            CreateMap<Order, OrderDTO>();
+            CreateMap<OrderDTO, Order>();
         }
     }
 }

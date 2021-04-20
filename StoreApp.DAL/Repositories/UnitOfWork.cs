@@ -58,6 +58,11 @@ namespace StoreApp.DAL.Repositories
         private ShopsRepository _shopsRepository;
         public ShopsRepository ShopsRepository =>
            _shopsRepository ?? (_shopsRepository = new ShopsRepository(db));
+
+
+        private OrderRepository _orderRepository;
+        public OrderRepository OrderRepository =>
+           _orderRepository ?? (_orderRepository = new OrderRepository(db));
         #endregion
 
 

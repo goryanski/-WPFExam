@@ -18,6 +18,7 @@ namespace StoreApp.DAL.Interfaces
         ProvisionersRepository ProvisionersRepository { get; }
         UsersRepository UsersRepository { get; }
         ShopsRepository ShopsRepository { get; }
+        OrderRepository OrderRepository { get; }
 
         void Save();
     }

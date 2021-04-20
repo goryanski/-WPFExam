@@ -17,6 +17,8 @@ namespace StoreApp.BLL.DTO.Warehouse
         public int Rating { get; set; }
         public string PhotoPath { get; set; }
         public string SelectionLabel { get; set; }
+        public int CountToOrder { get; set; }
+        public int ShopId { get; set; }
 
 
         public CategoryDTO Category { get; set; }

@@ -42,28 +42,16 @@ namespace StoreApp.UI.WPF
      */
     public partial class MainWindow : Window
     {
-        //public string Photo { get; set; }
-        //public string Text { get; set; }
-
-
         MainViewModel viewModel = new MainViewModel();
         List<Expander> rightPanelExpanders = new List<Expander>();
 
         string defaultSearchText = "find product by name...";
         ProductUI previousSelectedProduct = new ProductUI();
-        //public List<Shop> Shops { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = viewModel;
-
-
-            //Photo = System.IO.Path.GetFullPath("path");
-
-            //ImagePlace.Source = new BitmapImage(new Uri("https://img3.zakaz.ua/upload.version_1.0.7646c471ee009db79fd2cd9228dc6c1b.150x150.jpeg"));
-            //Text = "lolo";
-
 
             MainViewModelSubscriptions();
 
@@ -78,7 +66,6 @@ namespace StoreApp.UI.WPF
             viewModel.SomeProductsFoundEvent += ViewModel_SomeProductsFoundEvent;
             viewModel.ProductsLoadCompleteEvent += ViewModel_ProductsLoadCompleteEvent;
             viewModel.DeleteProductByCountCompleteEvent += ViewModel_DeleteProductByCountCompleteEvent;
-            //viewModel.StartAddProductEvent += ViewModel_StartAddProductEvent;
             viewModel.StartEditProductEvent += ViewModel_StartEditProductEvent;
         }
 
@@ -99,6 +86,9 @@ namespace StoreApp.UI.WPF
         private void ViewModel_DeleteProductByCountCompleteEvent()
         {
             tbDeleteProductCount.Text = string.Empty;
+            tbWriteOff.Text = string.Empty;
+            tbAddToShop.Text = string.Empty;
+            tbAddToBasket.Text = string.Empty;
         }
 
         private void ViewModel_ProductsLoadCompleteEvent()

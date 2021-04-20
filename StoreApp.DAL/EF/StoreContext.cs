@@ -20,6 +20,7 @@ namespace StoreApp.DAL.EF
         public DbSet<Provisioner> Provisioners { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Shop> Shops { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
 
         public StoreContext(string connectionString)

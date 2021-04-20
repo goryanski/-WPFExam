@@ -22,6 +22,7 @@ namespace StoreApp.UI.WPF.Helpers
         public ProvisionersService ProvisionersService { get; set; }
         public UsersService UsersService { get; set; }
         public ShopsService ShopsService { get; set; }
+        public OrdersService OrdersService { get; set; }
       
 
 
@@ -39,6 +40,7 @@ namespace StoreApp.UI.WPF.Helpers
             ProvisionersService = new ProvisionersService(uow);
             UsersService = new UsersService(uow);
             ShopsService = new ShopsService(uow);
+            OrdersService = new OrdersService(uow);
         }
     }
 }

@@ -17,6 +17,8 @@ namespace StoreApp.DAL.Entities.Warehouse
         public int Rating { get; set; }
         public string PhotoPath { get; set; }
         public string SelectionLabel { get; set; }
+        public int CountToOrder { get; set; }
+        public int ShopId { get; set; }
 
 
         public Category Category { get; set; }

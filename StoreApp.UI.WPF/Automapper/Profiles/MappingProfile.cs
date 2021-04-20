@@ -38,6 +38,9 @@ namespace StoreApp.UI.WPF.Automapper.Profiles
 
             CreateMap<ShopUI, ShopDTO>();
             CreateMap<ShopDTO, ShopUI>();
+
+            CreateMap<OrderUI, OrderDTO>();
+            CreateMap<OrderDTO, OrderUI>();
         }
     }
 }

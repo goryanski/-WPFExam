@@ -47,10 +47,6 @@ namespace StoreApp.UI.WPF.ViewModels
             Categories.AddRange(await services.CategoriesMapService.GetAllCategories());
             Shops.AddRange(await services.ShopsMapService.GetAllShops());
 
-            //if (Categories[0] != null)
-            //{
-            //    Products.AddRange(await services.ProductsMapService.GetProductsByCategory(Categories[0].Id));
-            //}
             await loadDefaultProducts();
             CheckProductsCount();
             ProductsLoadCompleteEvent?.Invoke();
@@ -197,7 +193,6 @@ namespace StoreApp.UI.WPF.ViewModels
             WriteOff,
             SendToShop,
             PutToBasket,
-            //Add,
             Edit
         }
 
@@ -213,7 +208,7 @@ namespace StoreApp.UI.WPF.ViewModels
         }));
 
 
-        // fot add and edit product 
+        // for add and edit product 
         internal async void UpdateProducts()
         {
             // we don't know what is new product category and what is current filter was selected for products list (new products, popular products...), so just refresh products list - we load products by default category, and rest will be update automatically
@@ -247,24 +242,9 @@ namespace StoreApp.UI.WPF.ViewModels
             RunAction(RIghtPanelActions.Delele);
         }));
 
-        private async void DeleteProductByCount(int newAmountInStorageValue, bool deleteAll, ProductUI product)
+        private async void DeleteProductByCount(int newAmountInStorageValue, bool selectAll, ProductUI selectedProduct)
         {
-            // change product.AmountInStorage in DB
-            await services.ProductsMapService.DeleteProductByCount(ListBoxSelectedProduct, newAmountInStorageValue);
-            if (deleteAll)
-            {
-                // set IsAvailable = false
-                await services.ProductsMapService.DeleteWholeProduct(ListBoxSelectedProduct);
-                // Remove from ObservableCollection
-                Products.Remove(product);
-            }
-            else
-            {
-                // change field AmountInStorage in ObservableCollection
-                product.AmountInStorage = newAmountInStorageValue;
-            }
-
-            DeleteProductByCountCompleteEvent?.Invoke();
+            await DeleteProductFromDbAndUI(newAmountInStorageValue, selectAll, selectedProduct);
         }
         #endregion
 
@@ -295,6 +275,32 @@ namespace StoreApp.UI.WPF.ViewModels
         //}
         #endregion
 
+        #region Put product To Basket
+        private ProcessCommand _toBasketCommand;
+
+        public ProcessCommand ToBasketCommand => _toBasketCommand ?? (_toBasketCommand = new ProcessCommand(obj =>
+        {
+            RunAction(RIghtPanelActions.PutToBasket);
+        }));
+
+        private async void PutProductToBasket(int newAmountInStorageValue, bool selectAll, ProductUI selectedProduct, int countToSend)
+        {
+            await SendProductToBasket(selectedProduct, countToSend);
+            await DeleteProductFromDbAndUI(newAmountInStorageValue, selectAll, selectedProduct);
+        }
+
+        private async Task SendProductToBasket(ProductUI selectedProduct, int countToSend)
+        {
+            OrderUI order = new OrderUI
+            {
+                ProductName = selectedProduct.Name,
+                ProvisionerId = selectedProduct.ProvisionerId,
+                CountToOrder = countToSend
+            };
+
+            await services.OrdersMapService.CreateOrder(order);
+        }
+        #endregion
 
         private void RunAction(RIghtPanelActions action)
         {
@@ -313,13 +319,6 @@ namespace StoreApp.UI.WPF.ViewModels
                 return;
             }
 
-
-            //// check if add or edit
-            //if(action == RIghtPanelActions.Add)
-            //{
-            //    StartAddProduct();
-            //    return;
-            //}
             if(action == RIghtPanelActions.Edit)
             {
                 StartEditProductEvent?.Invoke(selectedProduct.Id);
@@ -334,10 +333,10 @@ namespace StoreApp.UI.WPF.ViewModels
 
             if (validator.IsProductsCountValid(countToDelete, countInStock))
             {
-                bool deleteAll = false;
+                bool selectAll = false;
                 if (countToDelete == countInStock)
                 {
-                    deleteAll = true;
+                    selectAll = true;
                 }
 
                 int newAmountInStorageValue = countInStock - countToDelete;
@@ -345,16 +344,37 @@ namespace StoreApp.UI.WPF.ViewModels
                 switch (action)
                 {
                     case RIghtPanelActions.Delele:
-                        DeleteProductByCount(newAmountInStorageValue, deleteAll, selectedProduct);
+                        DeleteProductByCount(newAmountInStorageValue, selectAll, selectedProduct);
                         break;
                     case RIghtPanelActions.WriteOff:
                         break;
                     case RIghtPanelActions.SendToShop:
                         break;
                     case RIghtPanelActions.PutToBasket:
+                        PutProductToBasket(newAmountInStorageValue, selectAll, selectedProduct, countToDelete);
                         break;
                 }
             }
+        }
+
+        private async Task DeleteProductFromDbAndUI(int newAmountInStorageValue, bool selectAll, ProductUI selectedProduct)
+        {
+            // change product.AmountInStorage in DB
+            await services.ProductsMapService.DeleteProductByCount(ListBoxSelectedProduct, newAmountInStorageValue);
+            if (selectAll)
+            {
+                // set IsAvailable = false
+                await services.ProductsMapService.DeleteWholeProduct(ListBoxSelectedProduct);
+                // Remove from ObservableCollection
+                Products.Remove(selectedProduct);
+            }
+            else
+            {
+                // change field AmountInStorage in ObservableCollection
+                selectedProduct.AmountInStorage = newAmountInStorageValue;
+            }
+
+            DeleteProductByCountCompleteEvent?.Invoke();
         }
 
 

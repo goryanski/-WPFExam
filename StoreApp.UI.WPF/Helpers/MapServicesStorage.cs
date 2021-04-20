@@ -17,6 +17,7 @@ namespace StoreApp.UI.WPF.Helpers
         public ProvisionersMapService ProvisionersMapService { get; set; }
         public UsersMapService UsersMapService { get; set; }
         public ShopsMapService ShopsMapService { get; set; }
+        public OrdersMapService OrdersMapService { get; set; }
 
 
 
@@ -32,6 +33,7 @@ namespace StoreApp.UI.WPF.Helpers
             ProvisionersMapService = new ProvisionersMapService();
             UsersMapService = new UsersMapService();
             ShopsMapService = new ShopsMapService();
+            OrdersMapService = new OrdersMapService();
         }
     }
 }
