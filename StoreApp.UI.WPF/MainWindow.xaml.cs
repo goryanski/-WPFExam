@@ -296,7 +296,7 @@ namespace StoreApp.UI.WPF
             };
             if (wnd.ShowDialog() == true)
             {
-                
+                viewModel.UpdateProducts(/*wnd.FilledProduct*/);
             }
         }
 

@@ -20,7 +20,7 @@ namespace StoreApp.UI.WPF.Windows
     /// </summary>
     public partial class ProductEditor : Window
     {
-        public ProductUI FilledProduct { get; set; }
+       // public ProductUI FilledProduct { get; set; }
         public enum Action
         {
             Edit,
@@ -30,7 +30,7 @@ namespace StoreApp.UI.WPF.Windows
         public Action Act { get; set; }
         ProductEditorViewModel viewModel = new ProductEditorViewModel();
 
-        public ProductEditor(Action action, int productId = 0)
+        public ProductEditor(Action action, int productId = -1)
         {
             InitializeComponent();
             //DataContext = new ProductEditorViewModel(productId);
@@ -43,9 +43,9 @@ namespace StoreApp.UI.WPF.Windows
            
         }
 
-        private void ViewModel_OperationCompleteEvent(ProductUI product)
+        private void ViewModel_OperationCompleteEvent(/*ProductUI product*/)
         {
-            FilledProduct = product;
+            //FilledProduct = product;
             DialogResult = true;
             Close();
         }

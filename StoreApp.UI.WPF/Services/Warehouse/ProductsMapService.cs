@@ -18,7 +18,7 @@ namespace StoreApp.UI.WPF.Services.Warehouse
 
         public async Task CreateProduct(ProductUI product)
         {
-            services.ProductsService.CreateProduct(GetProductDTO(product));
+            await services.ProductsService.CreateProduct(GetProductDTO(product));
         }
 
         public async Task<ProductUI> GetProductById(int id)

@@ -14,13 +14,13 @@ namespace StoreApp.UI.WPF.ViewModels
 {
     public class ProductEditorViewModel : INotifyPropertyChanged
     {
-        enum Action
+        enum Act
         {
             Add,
             Edit
         }
 
-        Action action;
+        Act action;
 
         public event PropertyChangedEventHandler PropertyChanged;
         MapServicesStorage services = MapServicesStorage.Instance;
@@ -121,14 +121,14 @@ namespace StoreApp.UI.WPF.ViewModels
         private async void Init()
         {
             // if editing show product info and set state
-            if (SelectedProductId != 0)
+            if (SelectedProductId > 0)
             {
-                action = Action.Edit;
+                action = Act.Edit;
                 Product = await services.ProductsMapService.GetFullProductById(SelectedProductId);
             }
             else
             {
-                action = Action.Add;
+                action = Act.Add;
                 Product = new ProductUI();
                 // for displaying when adding
                 ProductMaximumSaleDate = DateTime.Now.AddDays(1);
@@ -141,7 +141,7 @@ namespace StoreApp.UI.WPF.ViewModels
 
         #region Save product
 
-        public event Action<ProductUI> OperationCompleteEvent;
+        public event Action OperationCompleteEvent;/*<ProductUI>*/
         private ProcessCommand _saveCommand;
 
         public ProcessCommand SaveCommand => _saveCommand ?? (_saveCommand = new ProcessCommand(obj =>
@@ -156,17 +156,21 @@ namespace StoreApp.UI.WPF.ViewModels
             GetWindowFieldsInfo();
             if (validator.IsProductValid(Product))
             {
-                if(action == Action.Add)
+                if(action == Act.Add)
                 {
+                    // add additional fields that the user should not fill out
+                    Product.IsAvailable = true;
+                    Product.Rating = 0;
+                    Product.SelectionLabel = string.Empty;
+                    Product.ArrivalDate = DateTime.Now;
+
                     await services.ProductsMapService.CreateProduct(Product);
-                    // discover prod id and send it too 
-                    // or jusr refresh collection
-                    OperationCompleteEvent?.Invoke(Product);
+                    OperationCompleteEvent?.Invoke(/*Product*/);
                 }
-                else if(action == Action.Edit)
+                else if(action == Act.Edit)
                 {
                     await services.ProductsMapService.UpdateProduct(Product);
-                    OperationCompleteEvent?.Invoke(Product);
+                    OperationCompleteEvent?.Invoke(/*Product*/);
                 }
             }
         }
