@@ -142,6 +142,7 @@ namespace StoreApp.UI.WPF.ViewModels
         public string ProvisionerName { get; set; }
         public string ProvisionerMail { get; set; }
         ProvisionerValidator provisionerValidator = new ProvisionerValidator();
+        public event Action ProvisionerWasCreatedEvent;
 
         private ProcessCommand _addProvisionerCommand;
 
@@ -163,6 +164,7 @@ namespace StoreApp.UI.WPF.ViewModels
         {
             await services.ProvisionersMapService.CreateProvisioner(provisioner);
             Provisioners.Add(provisioner);
+            ProvisionerWasCreatedEvent?.Invoke();
         }
         #endregion
 

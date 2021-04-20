@@ -20,7 +20,6 @@ namespace StoreApp.UI.WPF.Windows
     /// </summary>
     public partial class ProductEditor : Window
     {
-       // public ProductUI FilledProduct { get; set; }
         public enum Action
         {
             Edit,
@@ -33,19 +32,24 @@ namespace StoreApp.UI.WPF.Windows
         public ProductEditor(Action action, int productId = -1)
         {
             InitializeComponent();
-            //DataContext = new ProductEditorViewModel(productId);
             DataContext = viewModel;
             viewModel.SelectedProductId = productId;
             
             viewModel.OperationCompleteEvent += ViewModel_OperationCompleteEvent;
+            viewModel.ProvisionerWasCreatedEvent += ViewModel_ProvisionerWasCreatedEvent;
             Act = action;
             SetTitle();
            
         }
 
+        private void ViewModel_ProvisionerWasCreatedEvent()
+        {
+            tbProvisionerMail.Text = tbProvisionerName.Text = string.Empty;
+            expanderAddProvisioner.IsExpanded = false;
+        }
+
         private void ViewModel_OperationCompleteEvent(/*ProductUI product*/)
         {
-            //FilledProduct = product;
             DialogResult = true;
             Close();
         }
@@ -66,11 +70,6 @@ namespace StoreApp.UI.WPF.Windows
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void BtnOk_Click(object sender, RoutedEventArgs e)
-        {
-            tbProvisionerMail.Text = tbProvisionerName.Text = string.Empty;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace StoreApp.UI.WPF.Models.Warehouse
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string _selectionLabel = string.Empty;
+        private string _photoPath = string.Empty;
         private int _count = 0;
 
         public string Name { get; set; }
@@ -33,7 +34,18 @@ namespace StoreApp.UI.WPF.Models.Warehouse
         }
 
         public int Rating { get; set; }
-        public string PhotoPath { get; set; }
+        public string PhotoPath
+        {
+            get => _photoPath;
+            set
+            {
+                if (!_photoPath.Equals(value))
+                {
+                    _photoPath = value;
+                    OnPropertyChanged(nameof(PhotoPath));
+                }
+            }
+        }
 
         public string SelectionLabel
         {

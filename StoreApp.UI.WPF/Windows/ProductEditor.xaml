@@ -206,7 +206,7 @@
             <StackPanel>
                 <Expander Header="Add new provisioner"
                           Style="{StaticResource ExpanderStyle}"
-                          x:Name="expanderAddCategory" >
+                          x:Name="expanderAddProvisioner" >
                     <Grid Background="#b3e4fc">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50*"/>
@@ -245,7 +245,6 @@
                         <Button Content="+"
                                 Name="btnOk"
                                 Command="{Binding AddProvisionerCommand}"
-                                Click="BtnOk_Click"
                                 FontWeight="Heavy"
                                 Grid.Column="2"
                                 Grid.RowSpan="2"

@@ -7,6 +7,8 @@ using StoreApp.DAL.Repositories.ExtraTables;
 using StoreApp.DAL.Repositories.Warehouse;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -1280,15 +1282,31 @@ namespace StoreApp.DAL.Repositories
             db.SaveChanges();
             #endregion
 
-            #region Set Rating for products and SelectionLabel
-            // it depends on Amount of product sales (automatically setting)
+            #region Set Rating for products, SelectionLabel, Change photos
+
+            // prepare folder to save local products photos
+            string downloadImagesFolder = "DownloadImages";
+            if (!Directory.Exists(downloadImagesFolder))
+            {
+                Directory.CreateDirectory(downloadImagesFolder);
+            }
+            else
+            {
+                ClearDirectory(downloadImagesFolder);
+            }
 
             var products = ProductsRepository.GetAllSync();
             foreach (var product in products)
             {
+                // 1. Set Rating. Rating depends on Amount of product sales (automatically setting)
                 int salesAmount = SoldProductsRepository.GetGeneralAmountSoldProductsById(product.Id);
                 product.Rating = SoldProductsRepository.SetProductRating(salesAmount);
+
+                // 2. Set SelectionLabel to string.Empty to avoid problems, when user will select product in main products list
                 product.SelectionLabel = string.Empty;
+
+                // 3. download images (from some remote server, for example) to computer memory while DB init to increase application performance while running. DB init will be only once, but application will be work faster all time
+                ChangeProductImageToLocal(product, downloadImagesFolder);
             }
             #endregion
 
@@ -1401,6 +1419,44 @@ namespace StoreApp.DAL.Repositories
 
             db.SaveChanges();
         }
+
+        #region Change products images helper metods
+        private void ChangeProductImageToLocal(Product product, string downloadImagesFolder)
+        {
+            string defaultImagePath = "DefaultImage\\no-image.png";
+
+            WebClient wc = new WebClient();
+            string filename = Path.GetFileName(product.PhotoPath);
+            string extension = Path.GetExtension(filename);
+            filename = $"{Guid.NewGuid()}{extension}";
+
+            try
+            {
+                string savePath = Path.GetFullPath(Path.Combine(downloadImagesFolder, filename));
+                Uri uriAddress = new Uri(product.PhotoPath);
+                wc.DownloadFileAsync(uriAddress, savePath);
+                product.PhotoPath = savePath;
+
+            }
+            catch (Exception)
+            {
+                product.PhotoPath = defaultImagePath;
+            }
+        }
+
+        private void ClearDirectory(string path)
+        {
+            string[] allFiles = Directory.GetFiles(path);
+            if (allFiles.Length > 0)
+            {
+                foreach (var file in allFiles)
+                {
+                    File.Delete(file);
+                }
+            }
+        }
+
+        #endregion
 
         public void Save()
         {

@@ -31,6 +31,10 @@ namespace StoreApp.UI.WPF.Helpers.Validators
 
         private void CheckName()
         {
+            if (provisioner.Name is null)
+            {
+                throw new InvalidDataException("Provisioner name cannot be empty");
+            }
             if (!Regex.IsMatch(provisioner.Name, "^[a-zA-Z][a-zA-Z0-9 ]{2,29}$"))
             {
                 throw new InvalidDataException("Incorrect entered provisioner name." +
@@ -39,6 +43,10 @@ namespace StoreApp.UI.WPF.Helpers.Validators
         }
         private void CheckEmail()
         {
+            if (provisioner.Mail is null)
+            {
+                throw new InvalidDataException("Provisioner mail cannot be empty");
+            }
             string emailChecking = @"^[a-zA-Z0-9][a-zA-Z0-9!#$%&'*+-\/=?^_`{|}~]{2,63}@[a-zA-Z]{2,32}\.[a-zA-Z]{2,16}$";
 
             if (!Regex.IsMatch(provisioner.Mail, emailChecking))

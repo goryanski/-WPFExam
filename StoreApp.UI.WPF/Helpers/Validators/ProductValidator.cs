@@ -55,7 +55,7 @@ namespace StoreApp.UI.WPF.Helpers.Validators
         {
             if(product.PhotoPath is null || product.PhotoPath == string.Empty)
             {
-                product.PhotoPath = Settings.DefaultImagePath;
+                product.PhotoPath = Path.GetFullPath(Settings.DefaultImagePath);
             }
         }
 
@@ -81,6 +81,10 @@ namespace StoreApp.UI.WPF.Helpers.Validators
 
         private void CheckName()
         {
+            if(product.Name is null)
+            {
+                throw new InvalidDataException("Product name cannot be empty");
+            }
             if (!Regex.IsMatch(product.Name, "^[a-zA-Z][a-zA-Z0-9 ]{2,29}$"))
             {
                 throw new InvalidDataException("Incorrect entered product name." +
