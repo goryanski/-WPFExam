@@ -14,10 +14,10 @@
         TextOptions.TextRenderingMode="Auto"     
         FontFamily="{DynamicResource MaterialDesignFont}"
         
-       Title="BooksEditor" Height="750" Width="500"  Background="#b3e4fc">
+       Title="BooksEditor" Height="700" Width="500"  Background="#b3e4fc">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.03*"/>
+            <RowDefinition Height="0.01*"/>
             <RowDefinition Height="0.05*"/>
             <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.05*"/>
@@ -196,6 +196,68 @@
         </ComboBox>
 <!--#endregion-->
 
+        
+        <!--#region Add Provisioner-->
+        <materialDesign:Card Grid.Row="11"
+                             Background="#b3e4fc"                        
+                             Grid.ColumnSpan="2"
+                             Margin="50 0 50 -15"
+                             Name="addProvisionerExpander">
+            <StackPanel>
+                <Expander Header="Add new provisioner"
+                          Style="{StaticResource ExpanderStyle}"
+                          x:Name="expanderAddCategory" >
+                    <Grid Background="#b3e4fc">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50*"/>
+                            <RowDefinition Height="50*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="10*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Name:"
+                                   Style="{StaticResource TbStandartStyle}"
+                                   Margin="10"
+                                   FontFamily="Roboto"
+                                   FontWeight="Normal"/>
+                        <TextBlock Text="Mail:"
+                                   Grid.Row="1"
+                                   Margin="10 5 10 10"
+                                   Style="{StaticResource TbStandartStyle}"
+                                   FontFamily="Roboto"
+                                   FontWeight="Normal"/>
+                        <TextBox Name="tbProvisionerName" 
+                                 Grid.Column="1" 
+                                 Text="{Binding ProvisionerName}"
+                                 Margin="0 0 0 7"
+                                 Style="{StaticResource TbxInputStyle}"
+                                 FontFamily="Roboto"
+                                 FontWeight="Normal"/>
+                        <TextBox Name="tbProvisionerMail" 
+                                 Grid.Column="1" Grid.Row="1" 
+                                 Text="{Binding ProvisionerMail}"
+                                 Margin="0 0 0 7"
+                                 Style="{StaticResource TbxInputStyle}"
+                                 FontFamily="Roboto"
+                                 FontWeight="Normal"/>
+                        <Button Content="+"
+                                Name="btnOk"
+                                Command="{Binding AddProvisionerCommand}"
+                                Click="BtnOk_Click"
+                                FontWeight="Heavy"
+                                Grid.Column="2"
+                                Grid.RowSpan="2"
+                                Style="{StaticResource BtnStandartStyle}"
+                                Height="40"
+                                Margin="15"/>
+                    </Grid>
+                </Expander>
+                <!--#endregion-->
+            </StackPanel>
+        </materialDesign:Card>
+        <!--#endregion-->
 
         <Button Content="Cancel"
                 Name="btnCancel"

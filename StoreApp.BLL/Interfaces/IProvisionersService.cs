@@ -8,7 +8,7 @@ namespace StoreApp.BLL.Interfaces
 {
     public interface IProvisionersService
     {
-        void CreateProvisioner(ProvisionerDTO provisioner);
+        Task CreateProvisioner(ProvisionerDTO provisioner);
         Task<ProvisionerDTO> GetProvisionerById(int id);
     }
 }

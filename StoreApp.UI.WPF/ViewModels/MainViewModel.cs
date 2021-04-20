@@ -201,25 +201,6 @@ namespace StoreApp.UI.WPF.ViewModels
             Edit
         }
 
-        //#region Add product
-
-        //public event Action StartAddProductEvent;
-
-        //private ProcessCommand _addProductCommand;
-
-        //public ProcessCommand AddProductCommand => _addProductCommand ?? (_addProductCommand = new ProcessCommand(obj =>
-        //{
-        //    RunAction(RIghtPanelActions.Add);
-        //}));
-
-        //private void StartAddProduct()
-        //{
-        //    StartAddProductEvent?.Invoke();
-        //}
-
-
-        //#endregion
-
         #region Edit product
 
         public event Action<int> StartEditProductEvent;
@@ -231,10 +212,11 @@ namespace StoreApp.UI.WPF.ViewModels
             RunAction(RIghtPanelActions.Edit);
         }));
 
+
+        // fot add and edit product 
         internal async void UpdateProducts()
         {
             // we don't know what is new product category and what is current filter was selected for products list (new products, popular products...), so just refresh products list - we load products by default category, and rest will be update automatically
-            ;
             Products.Clear();
             if (SelectedCategory != Categories[0])
             {

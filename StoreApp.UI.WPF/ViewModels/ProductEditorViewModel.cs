@@ -24,7 +24,6 @@ namespace StoreApp.UI.WPF.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         MapServicesStorage services = MapServicesStorage.Instance;
-        ProductValidator validator = new ProductValidator();
         //public int SelectedProductId { get; set; }
         int _id;
         public int SelectedProductId
@@ -139,9 +138,39 @@ namespace StoreApp.UI.WPF.ViewModels
             Provisioners.AddRange(await services.ProvisionersMapService.GetAllProvisioners());
         }
 
+        #region Add Provisioner 
+        public string ProvisionerName { get; set; }
+        public string ProvisionerMail { get; set; }
+        ProvisionerValidator provisionerValidator = new ProvisionerValidator();
+
+        private ProcessCommand _addProvisionerCommand;
+
+        public ProcessCommand AddProvisionerCommand => _addProvisionerCommand ?? (_addProvisionerCommand = new ProcessCommand(obj =>
+        {
+            ProvisionerUI provisioner = new ProvisionerUI
+            {
+                Name = ProvisionerName,
+                Mail = ProvisionerMail
+            };
+
+            if (provisionerValidator.IsProvisionerValid(provisioner))
+            {
+                CreateProvisioner(provisioner);
+            }
+        }));
+
+        private async void CreateProvisioner(ProvisionerUI provisioner)
+        {
+            await services.ProvisionersMapService.CreateProvisioner(provisioner);
+            Provisioners.Add(provisioner);
+        }
+        #endregion
+
         #region Save product
 
-        public event Action OperationCompleteEvent;/*<ProductUI>*/
+
+        ProductValidator productValidator = new ProductValidator();
+        public event Action OperationCompleteEvent;
         private ProcessCommand _saveCommand;
 
         public ProcessCommand SaveCommand => _saveCommand ?? (_saveCommand = new ProcessCommand(obj =>
@@ -154,7 +183,7 @@ namespace StoreApp.UI.WPF.ViewModels
             // thanks to two-way binding, we can use the same object for validation, instead of use text boxes in the UI to get the entered information 
             // except comboboxes and datePicker
             GetWindowFieldsInfo();
-            if (validator.IsProductValid(Product))
+            if (productValidator.IsProductValid(Product))
             {
                 if(action == Act.Add)
                 {
@@ -165,12 +194,12 @@ namespace StoreApp.UI.WPF.ViewModels
                     Product.ArrivalDate = DateTime.Now;
 
                     await services.ProductsMapService.CreateProduct(Product);
-                    OperationCompleteEvent?.Invoke(/*Product*/);
+                    OperationCompleteEvent?.Invoke();
                 }
                 else if(action == Act.Edit)
                 {
                     await services.ProductsMapService.UpdateProduct(Product);
-                    OperationCompleteEvent?.Invoke(/*Product*/);
+                    OperationCompleteEvent?.Invoke();
                 }
             }
         }
@@ -198,11 +227,6 @@ namespace StoreApp.UI.WPF.ViewModels
             Product.SellBy = ProductMaximumSaleDate;
         }
         #endregion
-        // add 
-        //IsAvailable = true
-        //Rating = 0
-        //SelectionLabel = string.Empty
-        // ArrivalDate = DateTime.Now
 
         private void OnPropertyChanged(string propName)
         {

@@ -13,10 +13,10 @@ namespace StoreApp.UI.WPF.Services
         private Automapper.ObjectMapper objectMapper = Automapper.ObjectMapper.Instance;
         BLLServicesStorage services = BLLServicesStorage.Instance;
 
-        public void CreateProvisioner(ProvisionerUI provisionerUI)
+        public async Task CreateProvisioner(ProvisionerUI provisionerUI)
         {
             ProvisionerDTO provisionerDTO = objectMapper.Mapper.Map<ProvisionerDTO>(provisionerUI);
-            services.ProvisionersService.CreateProvisioner(provisionerDTO);
+            await services.ProvisionersService.CreateProvisioner(provisionerDTO);
         }
 
         public async Task<ProvisionerUI> GetSectionById(int id)

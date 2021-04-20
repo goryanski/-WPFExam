@@ -35,11 +35,19 @@ namespace StoreApp.DAL.Repositories.Warehouse
             srchEntity.Rating = entity.Rating;
             srchEntity.PhotoPath = entity.PhotoPath;
             srchEntity.SelectionLabel = entity.SelectionLabel;
-            //srchEntity.Category = entity.Category;
             srchEntity.CategoryId = entity.CategoryId;
-            //srchEntity.Provisioner = entity.Provisioner;
             srchEntity.ProvisionerId = entity.ProvisionerId;
-            //srchEntity.Section = entity.Section;
+
+            if(srchEntity.ProvisionerId == 0)
+            {
+                // if user add new provisioner and immediately chose this provisioner while product adding or editing , provisionerId wil be 0, so take last added id from table of provisioners, in that case
+                srchEntity.ProvisionerId = db.Provisioners
+                    .ToList()
+                    .OrderByDescending(p => p.Id)
+                    .Take(1)
+                    .First()
+                    .Id;
+            }
             srchEntity.SectionId = entity.SectionId;
             // change entity state
             db.Entry(srchEntity).State = EntityState.Modified;

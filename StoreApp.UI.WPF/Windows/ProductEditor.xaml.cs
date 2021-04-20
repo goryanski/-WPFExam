@@ -67,5 +67,10 @@ namespace StoreApp.UI.WPF.Windows
         {
             Close();
         }
+
+        private void BtnOk_Click(object sender, RoutedEventArgs e)
+        {
+            tbProvisionerMail.Text = tbProvisionerName.Text = string.Empty;
+        }
     }
 }

@@ -20,9 +20,9 @@ namespace StoreApp.BLL.Services
             this.uow = uow;
         }
 
-        public void CreateProvisioner(ProvisionerDTO provisioner)
+        public async Task CreateProvisioner(ProvisionerDTO provisioner)
         {
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 var result = objectMapper.Mapper.Map<Provisioner>(provisioner);
                 await uow.ProvisionersRepository.Create(result);
