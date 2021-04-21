@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using StoreApp.DAL;
 using StoreApp.UI.WPF.Commands;
 using StoreApp.UI.WPF.Extensions;
 using StoreApp.UI.WPF.Helpers;
@@ -59,16 +64,68 @@ namespace StoreApp.UI.WPF.ViewModels
         #endregion
 
         #region Order all
+        public event Action StartOrderAllEvent;
+
         private ProcessCommand _orderAllCommand;
 
         public ProcessCommand OrderAllCommand => _orderAllCommand ?? (_orderAllCommand = new ProcessCommand(obj =>
         {
             if(GroupedOrders.Count > 0)
             {
+                StartOrderAllEvent?.Invoke();
 
+                if (!Directory.Exists(Settings.OrdersDirectoryFolder))
+                {
+                    Directory.CreateDirectory(Settings.OrdersDirectoryFolder);
+                }
+
+                var prov = DbOrders.Select(o => o.ProvisionerId).ToList();
+                var unic = prov.Distinct().ToList();
+
+                //Process.Start("explorer.exe", Settings.OrdersDirectoryFolder);
+                
+                NewMethod(unic);
             }
-            //RunAction(RIghtPanelActions.Delele);
-        }/*, obj => obj != null*/));
+            else
+            {
+                MessageBox.Show("There're no products", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }));
+
+        private async void NewMethod(List<int> unic)
+        {
+            List<ProvisionerUI> provisioners = new List<ProvisionerUI>();
+            foreach (var id in unic)
+            {
+                provisioners.Add(await services.ProvisionersMapService.GetProvisionerById(id));
+            }
+
+            foreach (var provisioner in provisioners)
+            {
+                string filename = $"{provisioner.Name}_{Guid.NewGuid()}.txt";
+                string savePath = Path.GetFullPath(Path.Combine(Settings.OrdersDirectoryFolder, filename));
+               
+                foreach (var order in DbOrders)
+                {
+                    if(order.ProvisionerId == provisioner.Id)
+                    {
+                        await File.AppendAllTextAsync(savePath, $"{order.ProductName} [{order.CountToOrder}]\n");
+                    }
+                }
+            }
+            //////////////Process.Start("explorer.exe", Settings.OrdersDirectoryFolder);
+
+            // delete orders from db 
+            //var ordersToDelete = GroupedOrders;
+            foreach (var order in GroupedOrders)
+            {
+                await DeleteOrder(order, false);
+            }
+
+            // // delete orders from collections
+            DbOrders.Clear();
+            GroupedOrders.Clear(); // убрать мусор и конец, потом делаем  btn open folder
+        }
         #endregion
 
         #region Delete Item
@@ -78,11 +135,17 @@ namespace StoreApp.UI.WPF.ViewModels
         public ProcessCommand DeleteItemCommand => _deleteItemCommand ?? (_deleteItemCommand = new ProcessCommand(obj =>
         {
             OrderUI groupedOrder = obj as OrderUI;
-            DeleteOrder(groupedOrder);
-            
+            DeleteOrderByCommand(groupedOrder, true);
+            //DeleteOrder(groupedOrder, true);
+
         }, obj => obj != null));
 
-        private async void DeleteOrder(OrderUI groupedOrder)
+        private async void DeleteOrderByCommand(OrderUI groupedOrder, bool v)
+        {
+           await DeleteOrder(groupedOrder, true);
+        }
+
+        private async Task DeleteOrder(OrderUI groupedOrder, bool withRestore)
         {
             int productIdToReturn = -1;
 
@@ -95,11 +158,16 @@ namespace StoreApp.UI.WPF.ViewModels
                     productIdToReturn = item.OrderedProdictId;
                 }
             }
-            GroupedOrders.Remove(groupedOrder);
 
-            // return product to warehouse
-            await services.ProductsMapService.ReturnProductToWarehouse(productIdToReturn, groupedOrder.CountToOrder);
-            OrderDeletionCompletedEvent?.Invoke();
+
+            if (withRestore)
+            {
+                GroupedOrders.Remove(groupedOrder);
+
+                // return product to warehouse
+                await services.ProductsMapService.ReturnProductToWarehouse(productIdToReturn, groupedOrder.CountToOrder);
+                OrderDeletionCompletedEvent?.Invoke();
+            }
         }
         #endregion
 

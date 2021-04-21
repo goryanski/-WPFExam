@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using StoreApp.DAL;
 using StoreApp.UI.WPF.Models.Warehouse;
 
 namespace StoreApp.UI.WPF.Helpers.Validators

@@ -1290,14 +1290,13 @@ namespace StoreApp.DAL.Repositories
             #region Set Rating for products, SelectionLabel, Change photos
 
             // prepare folder to save local products photos
-            string downloadImagesFolder = "DownloadImages";
-            if (!Directory.Exists(downloadImagesFolder))
+            if (!Directory.Exists(Settings.DownloadImagesFolder))
             {
-                Directory.CreateDirectory(downloadImagesFolder);
+                Directory.CreateDirectory(Settings.DownloadImagesFolder);
             }
             else
             {
-                ClearDirectory(downloadImagesFolder);
+                ClearDirectory(Settings.DownloadImagesFolder);
             }
 
             var products = ProductsRepository.GetAllSync();
@@ -1311,7 +1310,7 @@ namespace StoreApp.DAL.Repositories
                 product.SelectionLabel = string.Empty;
 
                 // 3. download images (from some remote server, for example) to computer memory while DB init to increase application performance while running. DB init will be only once, but application will be work faster all time
-                ChangeProductImageToLocal(product, downloadImagesFolder);
+                ChangeProductImageToLocal(product, Settings.DownloadImagesFolder);
             }
             #endregion
 
@@ -1428,8 +1427,6 @@ namespace StoreApp.DAL.Repositories
         #region Change products images helper metods
         private void ChangeProductImageToLocal(Product product, string downloadImagesFolder)
         {
-            string defaultImagePath = "DefaultImage\\no-image.png";
-
             WebClient wc = new WebClient();
             string filename = Path.GetFileName(product.PhotoPath);
             string extension = Path.GetExtension(filename);
@@ -1445,7 +1442,7 @@ namespace StoreApp.DAL.Repositories
             }
             catch (Exception)
             {
-                product.PhotoPath = defaultImagePath;
+                product.PhotoPath = Settings.DefaultImagePath;
             }
         }
 

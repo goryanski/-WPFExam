@@ -19,7 +19,7 @@ namespace StoreApp.UI.WPF.Services
             await services.ProvisionersService.CreateProvisioner(provisionerDTO);
         }
 
-        public async Task<ProvisionerUI> GetSectionById(int id)
+        public async Task<ProvisionerUI> GetProvisionerById(int id)
         {
             var result = await services.ProvisionersService.GetProvisionerById(id);
             return objectMapper.Mapper.Map<ProvisionerUI>(result);

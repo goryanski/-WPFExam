@@ -27,9 +27,15 @@ namespace StoreApp.UI.WPF.Windows
             DataContext = viewModel;
             viewModel.Start();
             viewModel.OrderDeletionCompletedEvent += ViewModel_OrderDeletionCompletedEvent;
+            viewModel.StartOrderAllEvent += ViewModel_StartOrderAllEvent;
             IsChangesInDb = false;
 
             BlockButtons(true);
+        }
+
+        private void ViewModel_StartOrderAllEvent()
+        {
+            BlockButtons(false);
         }
 
         private void ViewModel_OrderDeletionCompletedEvent()
@@ -39,26 +45,21 @@ namespace StoreApp.UI.WPF.Windows
 
         private void BlockButtons(bool isBlocking)
         {
-            if (isBlocking)
-            {
-                btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = false;
-            }
-            else
-            {
-                btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = true;
-            }
+            btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = !isBlocking;
+            //if (isBlocking)
+            //{
+            //    btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = false;
+            //}
+            //else
+            //{
+            //    btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = true;
+            //}
         }
 
         private void BtnOrderAll_Click(object sender, RoutedEventArgs e)
         {
-            if (lbOrders.SelectedIndex != -1)
-            {
-                BlockButtons(false);
-            }
-            //else
-            //{
-            //    MessageBox.Show("Select product first", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //}
+            //
+            
         }
 
         private void BtnSendOrder_Click(object sender, RoutedEventArgs e)
