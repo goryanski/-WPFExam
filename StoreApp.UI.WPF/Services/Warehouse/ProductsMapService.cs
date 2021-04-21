@@ -83,5 +83,10 @@ namespace StoreApp.UI.WPF.Services.Warehouse
         {
             await services.ProductsService.UpdateProduct(GetProductDTO(product));
         }
+
+        internal async Task ReturnProductToWarehouse(int productIdToRestore, int countTorestore)
+        {
+            await services.ProductsService.RestoreProduct(productIdToRestore, countTorestore);
+        }
     }
 }

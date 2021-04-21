@@ -72,6 +72,7 @@ namespace StoreApp.UI.WPF.ViewModels
         #endregion
 
         #region Delete Item
+        public event Action OrderDeletionCompletedEvent;
         private ProcessCommand _deleteItemCommand;
 
         public ProcessCommand DeleteItemCommand => _deleteItemCommand ?? (_deleteItemCommand = new ProcessCommand(obj =>
@@ -83,7 +84,7 @@ namespace StoreApp.UI.WPF.ViewModels
 
         private async void DeleteOrder(OrderUI groupedOrder)
         {
-            int productIdToReturn;
+            int productIdToReturn = -1;
 
             // Delete from orders table (use ObservableCollection with real data from DB)
             foreach (var item in DbOrders)
@@ -97,7 +98,8 @@ namespace StoreApp.UI.WPF.ViewModels
             GroupedOrders.Remove(groupedOrder);
 
             // return product to warehouse
-            await services.ProductsMapService.ReturnProductToWarehouse(productIdToReturn, groupedOrder.CountToOrder); // делаем все в продукт сервисе - обновляем кол-во если существует, обновляем кол-во и ставим что существует если не существует. 
+            await services.ProductsMapService.ReturnProductToWarehouse(productIdToReturn, groupedOrder.CountToOrder);
+            OrderDeletionCompletedEvent?.Invoke();
         }
         #endregion
 

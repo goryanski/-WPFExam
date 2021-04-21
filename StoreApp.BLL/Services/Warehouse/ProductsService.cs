@@ -90,10 +90,26 @@ namespace StoreApp.BLL.Services.Warehouse
             await uow.ProductsRepository.Update(result);
         }
 
+        public async Task RestoreProduct(int productIdToRestore, int countTorestore)
+        {
+            var product = await uow.ProductsRepository.Get(productIdToRestore);
+            int newCountValue = 0;
+            if (product.IsAvailable)
+            {
+                newCountValue = product.AmountInStorage + countTorestore;
+                await uow.ProductsRepository.UpdateProductCount(product, newCountValue);
+            }
+            else
+            {
+                await uow.ProductsRepository.ChangeProductAvailability(product, true);
+                await uow.ProductsRepository.UpdateProductCount(product, countTorestore);
+            }
+        }
+
         public async Task DeleteWholeProduct(ProductDTO productDTO)
         {
             var result = objectMapper.Mapper.Map<Product>(productDTO);
-            await uow.ProductsRepository.DeleteProduct(result);
+            await uow.ProductsRepository.ChangeProductAvailability(result, false);
         }
     }
 }

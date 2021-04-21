@@ -84,12 +84,20 @@ namespace StoreApp.DAL.Repositories.Warehouse
             await db.SaveChangesAsync();
         }
 
-        public async Task DeleteProduct(Product entity)
+        public async Task ChangeProductAvailability(Product entity, bool isProductAvailable)
         {
             var srchEntity = await Get(entity.Id);
-            srchEntity.IsAvailable = false;
+            srchEntity.IsAvailable = isProductAvailable;
             db.Entry(srchEntity).State = EntityState.Modified;
             await db.SaveChangesAsync();
         }
+
+        //public async Task RestoreProduct(int productId)
+        //{
+        //    var srchEntity = await Get(productId);
+        //    srchEntity.IsAvailable = true;
+        //    db.Entry(srchEntity).State = EntityState.Modified;
+        //    await db.SaveChangesAsync();
+        //}
     }
 }

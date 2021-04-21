@@ -19,13 +19,22 @@ namespace StoreApp.UI.WPF.Windows
     public partial class Basket : Window
     {
         BasketViewModel viewModel = new BasketViewModel();
+        public bool IsChangesInDb { get; set; }
+
         public Basket()
         {
             InitializeComponent();
             DataContext = viewModel;
             viewModel.Start();
+            viewModel.OrderDeletionCompletedEvent += ViewModel_OrderDeletionCompletedEvent;
+            IsChangesInDb = false;
 
             BlockButtons(true);
+        }
+
+        private void ViewModel_OrderDeletionCompletedEvent()
+        {
+            IsChangesInDb = true;
         }
 
         private void BlockButtons(bool isBlocking)
@@ -59,7 +68,7 @@ namespace StoreApp.UI.WPF.Windows
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
         private void btnOrderAll_Click(object sender, RoutedEventArgs e)

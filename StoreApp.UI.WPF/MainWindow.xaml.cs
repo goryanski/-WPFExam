@@ -286,7 +286,7 @@ namespace StoreApp.UI.WPF
             };
             if (wnd.ShowDialog() == true)
             {
-                viewModel.UpdateProducts(/*wnd.FilledProduct*/);
+                viewModel.UpdateProducts();
             }
         }
 
@@ -409,6 +409,11 @@ namespace StoreApp.UI.WPF
                 Owner = this
             };
             wnd.ShowDialog();
+
+            if (wnd.IsChangesInDb)
+            {
+                viewModel.UpdateProducts();
+            }
         }
         #endregion
 
