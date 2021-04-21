@@ -9,5 +9,6 @@ namespace StoreApp.BLL.DTO
         public string ProductName { get; set; }
         public int ProvisionerId { get; set; }
         public int CountToOrder { get; set; }
+        public int OrderedProdictId { get; set; }
     }
 }

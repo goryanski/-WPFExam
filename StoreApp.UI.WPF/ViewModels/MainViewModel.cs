@@ -295,7 +295,8 @@ namespace StoreApp.UI.WPF.ViewModels
             {
                 ProductName = selectedProduct.Name,
                 ProvisionerId = selectedProduct.ProvisionerId,
-                CountToOrder = countToSend
+                CountToOrder = countToSend,
+                OrderedProdictId = selectedProduct.Id
             };
 
             await services.OrdersMapService.CreateOrder(order);

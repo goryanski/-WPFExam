@@ -39,5 +39,10 @@ namespace StoreApp.BLL.Services
             var result = await uow.OrderRepository.GetAll();
             return objectMapper.Mapper.Map<List<OrderDTO>>(result);
         }
+
+        public async Task DeleteOrder(int orderId)
+        { 
+            await uow.OrderRepository.Delete(orderId);
+        }
     }
 }

@@ -403,7 +403,12 @@ namespace StoreApp.UI.WPF
 
         private void BtnBasket_Click(object sender, RoutedEventArgs e)
         {
-
+            Basket wnd = new Basket()
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = this
+            };
+            wnd.ShowDialog();
         }
         #endregion
 

@@ -25,10 +25,15 @@ namespace StoreApp.UI.WPF.Services
             return objectMapper.Mapper.Map<OrderUI>(result);
         }
 
-        public async Task<List<OrderUI>> GetAllProvisioners()
+        public async Task<List<OrderUI>> GetAllOrders()
         {
             var result = await services.OrdersService.GetAllOrders();
             return objectMapper.Mapper.Map<List<OrderUI>>(result);
+        }
+
+        internal async Task DeleteOrder(int orderId)
+        {
+            await services.OrdersService.DeleteOrder(orderId);
         }
     }
 }
