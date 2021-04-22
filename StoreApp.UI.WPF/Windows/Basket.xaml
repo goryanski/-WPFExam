@@ -94,14 +94,14 @@
                 materialDesign:ButtonAssist.CornerRadius="10"/>
         <Button Content="Open folder" 
                 Name="btnOpenFolder"
-                Command="{Binding RemoveCommand}" 
-                CommandParameter="{Binding SelectedListBoxUser}"
+                Command="{Binding OpenFolderCommand}"
                 Grid.Column="3" Grid.Row="3" 
                 Margin="0"
                 Style="{StaticResource BtnStandartStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10"/>
         <Button Name="btnSendOrder"
                 Click="BtnSendOrder_Click"
+                Command="{Binding SendOrdersCommand}" 
                 Grid.Column="3" Grid.Row="4"
                 Margin="0"
                 Style="{StaticResource BtnStandartStyle}"

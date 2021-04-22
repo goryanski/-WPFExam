@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -72,19 +73,21 @@ namespace StoreApp.UI.WPF.ViewModels
         {
             if(GroupedOrders.Count > 0)
             {
+                // for UI
                 StartOrderAllEvent?.Invoke();
 
+                // directory for orders files
                 if (!Directory.Exists(Settings.OrdersDirectoryFolder))
                 {
                     Directory.CreateDirectory(Settings.OrdersDirectoryFolder);
                 }
 
-                var prov = DbOrders.Select(o => o.ProvisionerId).ToList();
-                var unic = prov.Distinct().ToList();
 
-                //Process.Start("explorer.exe", Settings.OrdersDirectoryFolder);
+                // get id of rovisioners to form orders files
+                var provisionersId = DbOrders.Select(o => o.ProvisionerId).ToList();
+                var unicIdProvisioners = provisionersId.Distinct().ToList();
                 
-                NewMethod(unic);
+                FormOrdersFiles(unicIdProvisioners);
             }
             else
             {
@@ -92,7 +95,7 @@ namespace StoreApp.UI.WPF.ViewModels
             }
         }));
 
-        private async void NewMethod(List<int> unic)
+        private async void FormOrdersFiles(List<int> unic)
         {
             List<ProvisionerUI> provisioners = new List<ProvisionerUI>();
             foreach (var id in unic)
@@ -100,6 +103,7 @@ namespace StoreApp.UI.WPF.ViewModels
                 provisioners.Add(await services.ProvisionersMapService.GetProvisionerById(id));
             }
 
+            // sort orders by provisioners, create files to each provisioner, write suibable oreders inside them
             foreach (var provisioner in provisioners)
             {
                 string filename = $"{provisioner.Name}_{Guid.NewGuid()}.txt";
@@ -113,21 +117,20 @@ namespace StoreApp.UI.WPF.ViewModels
                     }
                 }
             }
-            //////////////Process.Start("explorer.exe", Settings.OrdersDirectoryFolder);
+           
 
             // delete orders from db 
-            //var ordersToDelete = GroupedOrders;
             foreach (var order in GroupedOrders)
             {
                 await DeleteOrder(order, false);
             }
 
-            // // delete orders from collections
+            // delete orders from collections
             DbOrders.Clear();
-            GroupedOrders.Clear(); // убрать мусор и конец, потом делаем  btn open folder
+            GroupedOrders.Clear(); 
         }
         #endregion
-
+        
         #region Delete Item
         public event Action OrderDeletionCompletedEvent;
         private ProcessCommand _deleteItemCommand;
@@ -171,7 +174,108 @@ namespace StoreApp.UI.WPF.ViewModels
         }
         #endregion
 
+        #region Button open folder
+        private ProcessCommand _openFolderCommand;
+        public ProcessCommand OpenFolderCommand => _openFolderCommand ?? (_openFolderCommand = new ProcessCommand(obj =>
+        {
+            if (Directory.Exists(Settings.OrdersDirectoryFolder))
+            {
+                Process.Start("explorer.exe", Settings.OrdersDirectoryFolder);
+            }
+            else
+            {
+                MessageBox.Show("Directory with orders has been deleted", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }));
+        #endregion
 
+        #region Send Orders Command
+
+        SendOrdersService sendService = new SendOrdersService();
+
+        private ProcessCommand _sendOrdersCommand;
+        public ProcessCommand SendOrdersCommand => _sendOrdersCommand ?? (_sendOrdersCommand = new ProcessCommand(obj =>
+        {
+            if (!Directory.Exists(Settings.OrdersDirectoryFolder))
+            {
+                MessageBox.Show("Directory with orders has been deleted", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            SendOrders(Settings.OrdersDirectoryFolder);
+        }));
+
+        private async void SendOrders(string folderPath)
+        {
+            // take files from order files directory, sort them by provisioners and send each provisioner email to order products
+            string[] allFiles = Directory.GetFiles(folderPath);
+            if (allFiles.Length > 0)
+            {
+                var provisioners = await services.ProvisionersMapService.GetAllProvisioners();
+                foreach (var provisioner in provisioners)
+                {
+                    // select files to send this provisioner
+                    List<string> orderfiles = new List<string>();
+
+                    foreach (var file in allFiles)
+                    {
+                        if (Path.GetFileName(file).Contains(provisioner.Name))
+                        {
+                            orderfiles.Add(file);
+                        }
+                    }
+
+                    if(orderfiles.Count > 0)
+                    {
+                        // first move files to archive (avoid conflicts)
+                        MoveFilesToArchive(folderPath, orderfiles.ToArray());
+
+
+                        // change files path to archive folder path (because we moved them)
+                        for (int i = 0; i < orderfiles.Count; i++)
+                        {
+                            orderfiles[i] = orderfiles[i].Replace(Settings.OrdersDirectoryFolder, Settings.OrdersDirectoryArchiveFolder);
+                        }
+
+                        // send emails to all providers
+                        await Send(provisioner.Mail, orderfiles.ToArray());
+                    }
+                }
+                MessageBox.Show("All orders have been sended to provisioners and moved to archive", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Nothing to order", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void MoveFilesToArchive(string folderPath, string[] orderedFiles)
+        {
+            // check directory for archive files
+            if (!Directory.Exists(Settings.OrdersDirectoryArchiveFolder))
+            {
+                Directory.CreateDirectory(Settings.OrdersDirectoryArchiveFolder);
+            }
+
+            foreach (var orderedFile in orderedFiles)
+            {
+                string destination = Path.Combine(Settings.OrdersDirectoryArchiveFolder, Path.GetFileName(orderedFile));
+
+                File.Move(orderedFile, destination);
+            }
+        }
+
+        private async Task Send(string toMail, string[] selectedFiles)
+        {
+            await sendService.SendMailMessage(
+                    toMail
+                    , "New order"
+                    , "Orders:\n"
+                    , false
+                    , sendService.GetAttachments(selectedFiles)
+             );
+        }
+        #endregion
 
 
 
