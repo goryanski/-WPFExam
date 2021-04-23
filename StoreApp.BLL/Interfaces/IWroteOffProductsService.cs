@@ -8,7 +8,7 @@ namespace StoreApp.BLL.Interfaces
 {
     public interface IWroteOffProductsService
     {
-        void CreateProduct(WroteOffProductDTO product);
+        Task CreateProduct(WroteOffProductDTO product);
         Task<WroteOffProductDTO> GetProductById(int id);
     }
 }

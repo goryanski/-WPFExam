@@ -20,9 +20,9 @@ namespace StoreApp.BLL.Services.ExtraTables
             this.uow = uow;
         }
 
-        public void CreateProduct(SoldProductDTO product)
+        public async Task CreateProduct(SoldProductDTO product)
         {
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 var result = objectMapper.Mapper.Map<SoldProduct>(product);
                 await uow.SoldProductsRepository.Create(result);

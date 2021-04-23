@@ -17,6 +17,7 @@ using StoreApp.UI.WPF.Extensions;
 using StoreApp.UI.WPF.Helpers;
 using StoreApp.UI.WPF.Helpers.Validators;
 using StoreApp.UI.WPF.Models;
+using StoreApp.UI.WPF.Models.ExtraModels;
 using StoreApp.UI.WPF.Models.Warehouse;
 using StoreApp.UI.WPF.Services.Warehouse;
 
@@ -47,19 +48,18 @@ namespace StoreApp.UI.WPF.ViewModels
             Categories.AddRange(await services.CategoriesMapService.GetAllCategories());
             Shops.AddRange(await services.ShopsMapService.GetAllShops());
 
-            await loadDefaultProducts();
+            await LoadDefaultProducts();
             CheckProductsCount();
             ProductsLoadCompleteEvent?.Invoke();
         }
 
-        private async Task loadDefaultProducts()
+        private async Task LoadDefaultProducts()
         {
             if (Categories[0] != null)
             {
                 Products.AddRange(await services.ProductsMapService.GetProductsByCategory(Categories[0].Id));
             }
         }
-
 
 
         #region GetProductsBySelectedCategory
@@ -220,7 +220,7 @@ namespace StoreApp.UI.WPF.ViewModels
             else
             {
                 // if we was at the same category, when adding or editing of product - reload this category products list
-                await loadDefaultProducts();
+                await LoadDefaultProducts();
             }
         }
         #endregion
@@ -229,7 +229,6 @@ namespace StoreApp.UI.WPF.ViewModels
 
         // products count has been entered for actions in right panel
         public string TextBoxCountProducts { get; set; }
-
         
 
         #region Delete product
@@ -253,26 +252,26 @@ namespace StoreApp.UI.WPF.ViewModels
 
         public ProcessCommand WriteOffCommand => _writeOffCommand ?? (_writeOffCommand = new ProcessCommand(obj =>
         {
-            //var str = TextBoxCountProducts;
-            //var prod = ListBoxSelectedProduct;
-
-            //// valid
-            //if (validator.IsProductsCountValid(TextBoxCountProducts, ListBoxSelectedProduct.AmountInStorage))
-            //{
-
-            //}
-            //var str = DeleteProductCount;
-            //var prod = ListBoxSelectedProduct;
-            ;
-            //DeleteProductByCount();
+            RunAction(RIghtPanelActions.WriteOff);
         }));
+        private async void WriteOffProduct(int newAmountInStorageValue, bool selectAll, ProductUI selectedProduct, int countToSend)
+        {
+            await WriteOff(selectedProduct, countToSend);
+            await DeleteProductFromDbAndUI(newAmountInStorageValue, selectAll, selectedProduct);
+        }
 
-        //private async void DeleteProductByCount()
-        //{
-        //    Products.Clear();
-        //    Products.AddRange(await services.ProductsMapService.GetNewProducts());
-        //    CheckProductsCount();
-        //}
+        private async Task WriteOff(ProductUI selectedProduct, int countToSend)
+        {
+            WroteOffProductUI product = new WroteOffProductUI
+            {
+                ProductId = selectedProduct.Id,
+                Amount = countToSend,
+                Date = DateTime.Now
+            };
+
+            await services.WroteOffProductsMapService.CreateProduct(product);
+        }
+
         #endregion
 
         #region Put product To Basket
@@ -300,6 +299,54 @@ namespace StoreApp.UI.WPF.ViewModels
             };
 
             await services.OrdersMapService.CreateOrder(order);
+        }
+        #endregion
+
+        #region Add product To Shop 
+
+        ShopUI _selectedShop;
+        public ShopUI SelectedShop
+        {
+            get => _selectedShop;
+            set
+            {
+                if (value != _selectedShop)
+                {
+                    _selectedShop = value;
+                    OnPropertyChanged(nameof(SelectedShop));
+                }
+            }
+        }
+
+        private ProcessCommand _addToShopCommand;
+        public ProcessCommand SendToShopCommand => _addToShopCommand ?? (_addToShopCommand = new ProcessCommand(obj =>
+        {
+            if(SelectedShop is null)
+            {
+                MessageBox.Show("Shop to send isn't selected", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            
+            RunAction(RIghtPanelActions.SendToShop);
+        }));
+
+        private async void SendProductToShop(int newAmountInStorageValue, bool selectAll, ProductUI selectedProduct, int countToSend)
+        {
+            await SendToShop(selectedProduct, countToSend);
+            await DeleteProductFromDbAndUI(newAmountInStorageValue, selectAll, selectedProduct);
+        }
+
+        private async Task SendToShop(ProductUI selectedProduct, int countToSend)
+        {
+            SoldProductUI product = new SoldProductUI
+            {
+                ProductId = selectedProduct.Id,
+                Amount = countToSend,
+                ShopId = SelectedShop.Id,
+                SoldDate = DateTime.Now
+            };
+
+            await services.SoldProductsMapService.CreateProduct(product);
         }
         #endregion
 
@@ -348,8 +395,10 @@ namespace StoreApp.UI.WPF.ViewModels
                         DeleteProductByCount(newAmountInStorageValue, selectAll, selectedProduct);
                         break;
                     case RIghtPanelActions.WriteOff:
+                        WriteOffProduct(newAmountInStorageValue, selectAll, selectedProduct, countToDelete);
                         break;
                     case RIghtPanelActions.SendToShop:
+                        SendProductToShop(newAmountInStorageValue, selectAll, selectedProduct, countToDelete);
                         break;
                     case RIghtPanelActions.PutToBasket:
                         PutProductToBasket(newAmountInStorageValue, selectAll, selectedProduct, countToDelete);
@@ -357,6 +406,7 @@ namespace StoreApp.UI.WPF.ViewModels
                 }
             }
         }
+
 
         private async Task DeleteProductFromDbAndUI(int newAmountInStorageValue, bool selectAll, ProductUI selectedProduct)
         {

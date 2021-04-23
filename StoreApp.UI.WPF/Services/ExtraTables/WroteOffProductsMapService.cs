@@ -13,10 +13,10 @@ namespace StoreApp.UI.WPF.Services.ExtraTables
         private Automapper.ObjectMapper objectMapper = Automapper.ObjectMapper.Instance;
         BLLServicesStorage services = BLLServicesStorage.Instance;
 
-        public void CreateProduct(WroteOffProductUI productUI)
+        public async Task CreateProduct(WroteOffProductUI productUI)
         {
             WroteOffProductDTO productDTO = objectMapper.Mapper.Map<WroteOffProductDTO>(productUI);
-            services.WroteOffProductsService.CreateProduct(productDTO);
+            await services.WroteOffProductsService.CreateProduct(productDTO);
         }
 
         public async Task<WroteOffProductUI> GetProductById(int id)
