@@ -15,7 +15,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
          
         Title="Warehouse" Height="700" Width="1100" Background="#b3e4fc">
-    <Grid>  
+    <Grid>   
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="50*"/>
@@ -462,7 +462,7 @@
                                    Margin="-5 0 0 15"/>
                         <TextBox x:Name="tbAddToShop"
                                  Grid.Column="1" Grid.Row="1"
-                                 Style="{StaticResource TbExpanderStyle}"                         
+                                 Text="{Binding TextBoxCountProducts}"
                                  Margin="-10 20 30 15"/>
 
                         <Button Grid.Column="2" Grid.RowSpan="2"

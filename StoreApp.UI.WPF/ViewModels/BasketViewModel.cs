@@ -237,8 +237,19 @@ namespace StoreApp.UI.WPF.ViewModels
                             orderfiles[i] = orderfiles[i].Replace(Settings.OrdersDirectoryFolder, Settings.OrdersDirectoryArchiveFolder);
                         }
 
-                        // send emails to all providers
-                        await Send(provisioner.Mail, orderfiles.ToArray());
+                        try
+                        {
+                            // send emails to selected provisioner
+                            await Send(provisioner.Mail, orderfiles.ToArray());
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show($"Unexpected error: you must send files to the provisioner " +
+                                $"'{provisioner.Name}' manually " +
+                                $"(directory: {Settings.OrdersDirectoryArchiveFolder}, names started with" +
+                                $" {provisioner.Name}).\n" +
+                                $"Error details: {ex.Message}", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
                     }
                 }
                 MessageBox.Show("All orders have been sended to provisioners and moved to archive", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
