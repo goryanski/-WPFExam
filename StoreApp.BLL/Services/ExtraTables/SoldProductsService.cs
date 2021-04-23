@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StoreApp.BLL.DTO.ExtraTables;
@@ -41,17 +42,20 @@ namespace StoreApp.BLL.Services.ExtraTables
             return objectMapper.Mapper.Map<List<SoldProductDTO>>(result);
         }
 
-        //public async Task<int> GetGeneralAmountSoldProductsById(int id)
-        //{
-        //    var result = await uow.SoldProductsRepository.GetAll(p => p.ProductId == id);
-            
-        //    int amount = 0;
-        //    foreach (var product in result)
-        //    {
-        //        amount += product.Amount;
-        //    }
+        public async Task<List<SoldProductDTO>> GetLastProducts()
+        {
+            var products = await uow.SoldProductsRepository.GetAll();
+            var result = products.OrderByDescending(p => p.SoldDate)
+                .Take(15)
+                .ToList();
 
-        //    return amount;
-        //}
+            return objectMapper.Mapper.Map<List<SoldProductDTO>>(result);
+        }
+
+        public async Task<List<SoldProductDTO>> GetProductsByRange(DateTime dateFrom, DateTime dateTo)
+        {
+            var result = await uow.SoldProductsRepository.GetAll(p => p.SoldDate >= dateFrom && p.SoldDate <= dateTo);
+            return objectMapper.Mapper.Map<List<SoldProductDTO>>(result);
+        }
     }
 }

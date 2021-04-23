@@ -46,14 +46,6 @@ namespace StoreApp.UI.WPF.Windows
         private void BlockButtons(bool isBlocking)
         {
             btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = !isBlocking;
-            //if (isBlocking)
-            //{
-            //    btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = false;
-            //}
-            //else
-            //{
-            //    btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = true;
-            //}
         }
 
         private void BtnOrderAll_Click(object sender, RoutedEventArgs e)

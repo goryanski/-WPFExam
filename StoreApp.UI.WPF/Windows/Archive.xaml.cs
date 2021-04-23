@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using StoreApp.UI.WPF.ViewModels;
 
 namespace StoreApp.UI.WPF.Windows
 {
@@ -17,9 +18,12 @@ namespace StoreApp.UI.WPF.Windows
     /// </summary>
     public partial class Archive : Window
     {
+        ArchiveViewModel viewModel = new ArchiveViewModel();
         public Archive()
         {
             InitializeComponent();
+            DataContext = viewModel;
+            viewModel.Start();
         }
     }
 }
