@@ -945,7 +945,7 @@ namespace StoreApp.DAL.Repositories
                 IsAvailable = true,
                 ArrivalDate = DateTime.Now.AddDays(-5),
                 SellBy = DateTime.Now.AddDays(+100),
-                AmountInStorage = 500,
+                AmountInStorage = 50_000,
                 PhotoPath = "https://img2.zakaz.ua/1.1614533989.ad72436478c_2021-03-01_Tatyana_L/1.1614533989.SNCPSG10.obj.0.1.jpg.oe.jpg.pf.jpg.150nowm.jpg.150x.jpg",
                 CategoryId = category10.Id,
                 ProvisionerId = provisioner2.Id,
@@ -1303,7 +1303,7 @@ namespace StoreApp.DAL.Repositories
             foreach (var product in products)
             {
                 // 1. Set Rating. Rating depends on Amount of product sales (automatically setting)
-                int salesAmount = SoldProductsRepository.GetGeneralAmountSoldProductsById(product.Id);
+                int salesAmount = SoldProductsRepository.GetGeneralAmountProductSalesById(product.Id);
                 product.Rating = SoldProductsRepository.SetProductRating(salesAmount);
 
                 // 2. Set SelectionLabel to string.Empty to avoid problems, when user will select product in main products list

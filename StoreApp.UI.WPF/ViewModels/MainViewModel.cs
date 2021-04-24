@@ -48,12 +48,12 @@ namespace StoreApp.UI.WPF.ViewModels
             Categories.AddRange(await services.CategoriesMapService.GetAllCategories());
             Shops.AddRange(await services.ShopsMapService.GetAllShops());
 
-            await LoadDefaultProducts();
+            await LoadToListBoxDefaultProducts();
             CheckProductsCount();
             ProductsLoadCompleteEvent?.Invoke();
         }
 
-        private async Task LoadDefaultProducts()
+        private async Task LoadToListBoxDefaultProducts()
         {
             if (Categories[0] != null)
             {
@@ -220,7 +220,7 @@ namespace StoreApp.UI.WPF.ViewModels
             else
             {
                 // if we was at the same category, when adding or editing of product - reload this category products list
-                await LoadDefaultProducts();
+                await LoadToListBoxDefaultProducts();
             }
         }
         #endregion
@@ -334,6 +334,11 @@ namespace StoreApp.UI.WPF.ViewModels
         {
             await SendToShop(selectedProduct, countToSend);
             await DeleteProductFromDbAndUI(newAmountInStorageValue, selectAll, selectedProduct);
+
+            if (await services.SoldProductsMapService.UpdateProductRating(selectedProduct))
+            {
+                UpdateProducts();
+            }
         }
 
         private async Task SendToShop(ProductUI selectedProduct, int countToSend)

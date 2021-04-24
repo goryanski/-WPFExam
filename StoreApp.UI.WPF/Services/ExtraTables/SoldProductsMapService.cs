@@ -8,6 +8,7 @@ using StoreApp.BLL.DTO.Warehouse;
 using StoreApp.UI.WPF.Helpers;
 using StoreApp.UI.WPF.Helpers.ExtraModels;
 using StoreApp.UI.WPF.Models.ExtraModels;
+using StoreApp.UI.WPF.Models.Warehouse;
 
 namespace StoreApp.UI.WPF.Services.ExtraTables
 {
@@ -66,6 +67,12 @@ namespace StoreApp.UI.WPF.Services.ExtraTables
                 viewSoldProducts.Add(viewProduct);
             }
             return viewSoldProducts;
+        }
+
+        internal async Task<bool> UpdateProductRating(ProductUI productUI)
+        {
+            ProductDTO productDTO = objectMapper.Mapper.Map<ProductDTO>(productUI);
+            return await services.SoldProductsService.UpdateProductRating(productDTO);
         }
     }
 }

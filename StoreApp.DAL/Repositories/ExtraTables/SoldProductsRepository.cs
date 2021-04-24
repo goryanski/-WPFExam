@@ -37,12 +37,16 @@ namespace StoreApp.DAL.Repositories.ExtraTables
             //await db.SaveChangesAsync();
         }
 
-        public int GetGeneralAmountSoldProductsById(int id)
+        public int GetGeneralAmountProductSalesById(int id)
         {
             var result = Table.Where(p => p.ProductId == id).ToList();
+            return GetGeneralAmountProductSales(result);
+        }
 
+        public int GetGeneralAmountProductSales(List<SoldProduct> selectedProducts)
+        {
             int amount = 0;
-            foreach (var product in result)
+            foreach (var product in selectedProducts)
             {
                 amount += product.Amount;
             }

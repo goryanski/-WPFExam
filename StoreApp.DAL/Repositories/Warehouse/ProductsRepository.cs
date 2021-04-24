@@ -71,6 +71,14 @@ namespace StoreApp.DAL.Repositories.Warehouse
                 .FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
+        public async Task UpdateProductRating(Product entity, int newValue)
+        {
+            var srchEntity = await Get(entity.Id);
+            srchEntity.Rating = newValue;
+            db.Entry(srchEntity).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+        }
+
         public List<Product> GetAllSync()
         {
             return Table.ToList();

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StoreApp.BLL.DTO.ExtraTables;
+using StoreApp.BLL.DTO.Warehouse;
 using StoreApp.BLL.Interfaces;
 using StoreApp.DAL.Entities.ExtraTables;
+using StoreApp.DAL.Entities.Warehouse;
 using StoreApp.DAL.Interfaces;
 
 namespace StoreApp.BLL.Services.ExtraTables
@@ -56,6 +58,21 @@ namespace StoreApp.BLL.Services.ExtraTables
         {
             var result = await uow.SoldProductsRepository.GetAll(p => p.SoldDate >= dateFrom && p.SoldDate <= dateTo);
             return objectMapper.Mapper.Map<List<SoldProductDTO>>(result);
+        }
+
+        public async Task<bool> UpdateProductRating(ProductDTO product)
+        {
+            var selectedProducts = await uow.SoldProductsRepository.GetAll(p => p.ProductId == product.Id);
+            var generalAmountSales = uow.SoldProductsRepository.GetGeneralAmountProductSales(selectedProducts);
+            var newProductRating = uow.SoldProductsRepository.SetProductRating(generalAmountSales);
+
+            if(product.Rating != newProductRating)
+            {
+                Product productDb = objectMapper.Mapper.Map<Product>(product);
+                await uow.ProductsRepository.UpdateProductRating(productDb, newProductRating);
+                return true;
+            }
+            return false;
         }
     }
 }
