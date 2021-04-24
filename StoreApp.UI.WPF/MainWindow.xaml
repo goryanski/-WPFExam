@@ -69,9 +69,22 @@
         <Button Grid.Column="4"
                 Command="{Binding ShowProductsWriteOffSoonCommand}"
                 materialDesign:ButtonAssist.CornerRadius="10"
+                Height="50"
+                Margin="5 5 5 14"
                 Style="{StaticResource BtnOrangeStyle}">
             <TextBlock Style="{StaticResource TbButtonStyle}"
                        Text="Write off soon"/>
+        </Button>
+
+        <Button Grid.Column="4" Grid.Row="1"
+                VerticalAlignment="Top"
+                Margin="5 -20 5 0"
+                Height="45"
+                Command="{Binding OverdueCommand}"
+                materialDesign:ButtonAssist.CornerRadius="10"
+                Style="{StaticResource BtnOrangeStyle}">
+            <TextBlock Style="{StaticResource TbButtonStyle}"
+                       Text="Overdue"/>
         </Button>
 
         <Button Grid.Column="5"
@@ -127,8 +140,7 @@
                  Background="#b3e4fc">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Label FontSize="16px" 
-                           FontWeight="Bold">
+                    <Label Style="{StaticResource LblBoldStyle}">
                         <Label.Content>
                             <TextBlock Text="{Binding Name}"/>
                         </Label.Content>
@@ -151,17 +163,6 @@
                  Margin="70,0,0,10"
                  Style="{StaticResource MyTextBox}"
                  Height="20" HorizontalAlignment="Left" Width="251"/>
-
-
-        <!--<Button Grid.Column="5" Grid.Row="1"
-                Style="{StaticResource BtnOrangeStyle}"
-                Height="40"
-                VerticalAlignment="Bottom"
-                Margin="-35 0 60 10"
-                FontSize="10">
-            <TextBlock Style="{StaticResource TbButtonStyle}"
-                       Text="Clear all filters"/>
-        </Button>-->
         <!--#endregion-->
 
         <!--#region Main ListBox - products list-->
@@ -173,7 +174,8 @@
                  ItemsSource="{Binding Products}"
                  MouseDoubleClick="LbProducts_MouseDoubleClick"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <!--SelectedItem="{Binding SelectedProducts}"-->
+            
+            
 
             <!-- List item will be selected by Mouse Over -->
             <ListBox.ItemContainerStyle>
@@ -187,6 +189,7 @@
             </ListBox.ItemContainerStyle>
 
 
+            
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
@@ -210,21 +213,16 @@
                                        Height="140"
                                        Source="{Binding PhotoPath, IsAsync=True}"
                                        Stretch="Uniform" />
-                                <!--Source="{Binding PhotoPath, IsAsync=True}"-->
-
 
                                 <!--btn Show product -->
                                 <Button Grid.Row="0"
-                                    HorizontalAlignment="Right"
-                                     Name="btnProductInfo"
-                                    Background="#ff6f00"
-                                    VerticalAlignment="Bottom"
-                                    Margin="0 0 16 -20"
-                                    Click="BtnProductInfo_Click"
-                                       Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                                       >
-                                    <!--Command="{Binding ShowDataCommand}" 
-                                    CommandParameter="{Binding SelectedProducts}"-->
+                                        HorizontalAlignment="Right"
+                                        Name="btnProductInfo"
+                                        Background="#ff6f00"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0 0 16 -20"
+                                        Click="BtnProductInfo_Click"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
                                     <materialDesign:PackIcon Kind="DotsVertical"
                                                              Width="20"
                                                              Height="20"/>
@@ -277,7 +275,7 @@
                                                    Text="{Binding AmountInStorage}"
                                                    Foreground="#1e88e5"/>
                                     </StackPanel>
-
+ 
                                     <Label Name="selectedProductLabel"
                                            Foreground="Red"
                                            FontWeight="Heavy"
@@ -297,6 +295,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
+        
         <TextBlock Name="tbNotFound"
                    Text="Not found"
                    HorizontalAlignment="Center"
@@ -406,7 +405,6 @@
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 Style="{StaticResource BtnStandartStyle}"
                                 Command="{Binding ToBasketCommand}"
-                                Click="btnAddToBasket_Click"
                                 Margin="-10 20 10 20"
                                 Height="30">
                             <TextBlock Style="{StaticResource TbButtonStyle}"
@@ -445,8 +443,7 @@
                                    SelectedItem="{Binding SelectedShop}"
                                    MinWidth="100"
                                    x:Name="cbShops" 
-                                   ItemsSource="{Binding Shops}" 
-                                   SelectionChanged="CbShops_SelectionChanged">
+                                   ItemsSource="{Binding Shops}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel>
@@ -471,7 +468,6 @@
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 Style="{StaticResource BtnStandartStyle}"
                                 Command="{Binding SendToShopCommand}"
-                                Click="btnAddToShop_Click"
                                 Margin="-20 20 10 10"
                                 VerticalAlignment="Bottom"
                                 Height="30">
@@ -510,7 +506,6 @@
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 Style="{StaticResource BtnStandartStyle}"
                                 Command="{Binding WriteOffCommand}"
-                                Click="btnWriteOff_Click"
                                 Margin="-10 20 10 20"
                                 Height="30">
                             <TextBlock Style="{StaticResource TbButtonStyle}"
@@ -568,15 +563,14 @@
                           x:Name="expanderAddProduct"
                           GotMouseCapture="ExpanderAddProduct_GotMouseCapture">
                     <Grid Background="#b3e4fc">
-                    <Button Grid.Row="2"
+                        <Button Grid.Row="2"
                                 Name="btnAddProduct"
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 Style="{StaticResource BtnStandartStyle}"
                                 Click="BtnAddProduct_Click"
                                 Margin="20 15 20 15"
                                 Height="30">
-                            <!-- Command="{Binding AddProductCommand}"-->
-                        <TextBlock Style="{StaticResource TbButtonStyle}"
+                            <TextBlock Style="{StaticResource TbButtonStyle}"
                                        Text="Add Product" />
                     </Button>
                     </Grid>
@@ -609,27 +603,6 @@
             </StackPanel>
         </materialDesign:Card>
         <!--#endregion-->
-
-
-
-
-
-
-
-        <!--<Image x:Name="ImagePlace"
-            Grid.Column="1" Grid.Row="2"
-               Source="{Binding Photo}" 
-               Stretch="Fill"/>
-        <TextBlock Grid.Column="2" Grid.Row="2"
-                   Text="{Binding Text}"/>-->
-
-
-
-        <!--<materialDesign:Card Padding="32" Margin="16">
-          -->
-        <!--завернуть?-->
-        <!--
-        </materialDesign:Card>-->
 
     </Grid>
 </Window>

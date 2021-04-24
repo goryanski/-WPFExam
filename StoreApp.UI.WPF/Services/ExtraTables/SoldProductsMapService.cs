@@ -12,6 +12,8 @@ using StoreApp.UI.WPF.Models.Warehouse;
 
 namespace StoreApp.UI.WPF.Services.ExtraTables
 {
+    // Map Services - for convenient work with BLL services. We can use UI models to realize INotifyPropertyChanged etc. And we don't have to use Automapper in viewModels, making the code cleaner
+
     public class SoldProductsMapService
     {
         private Automapper.ObjectMapper objectMapper = Automapper.ObjectMapper.Instance;

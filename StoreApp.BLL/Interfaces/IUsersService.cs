@@ -8,7 +8,7 @@ namespace StoreApp.BLL.Interfaces
 {
     public interface IUsersService
     {
-        void CreateUser(UserDTO user);
+        Task CreateUser(UserDTO user);
         Task<UserDTO> GetUserById(int id);
     }
 }

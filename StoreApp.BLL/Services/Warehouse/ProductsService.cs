@@ -66,12 +66,6 @@ namespace StoreApp.BLL.Services.Warehouse
             return objectMapper.Mapper.Map<List<ProductDTO>>(result);
         }
 
-        public async Task<List<ProductDTO>> GetProductsWriteOffSoon()
-        {
-            var result = await uow.ProductsRepository.GetAll(p => p.SellBy <= DateTime.Now.AddDays(+3));
-            return objectMapper.Mapper.Map<List<ProductDTO>>(result);
-        }
-
         public async Task<List<ProductDTO>> GetProductsBySearchText(string srchText)
         {
             var result = await uow.ProductsRepository.GetAll(p => p.Name.ToLower().Contains(srchText.ToLower()));
@@ -104,6 +98,20 @@ namespace StoreApp.BLL.Services.Warehouse
                 await uow.ProductsRepository.ChangeProductAvailability(product, true);
                 await uow.ProductsRepository.UpdateProductCount(product, countTorestore);
             }
+        }
+
+        public async Task<List<ProductDTO>> GetProductsWriteOffSoon()
+        {
+            var result = await uow.ProductsRepository
+                .GetAll(p => p.SellBy <= DateTime.Now.AddDays(+3) &&
+                p.SellBy > DateTime.Now);
+            return objectMapper.Mapper.Map<List<ProductDTO>>(result);
+        }
+
+        public async Task<List<ProductDTO>> GetProductsOverdue()
+        {
+            var result = await uow.ProductsRepository.GetAll(p => p.SellBy <= DateTime.Now);
+            return objectMapper.Mapper.Map<List<ProductDTO>>(result);
         }
 
         public async Task DeleteWholeProduct(ProductDTO productDTO)

@@ -17,10 +17,6 @@ namespace StoreApp.DAL.Repositories.Warehouse
 
         public override async Task Update(Product entity)
         {
-            //await Task.Run( async () => 
-            //{
-
-            //});
             // get entity from DB
             var srchEntity = await Get(entity.Id);
             // change entity
@@ -99,13 +95,5 @@ namespace StoreApp.DAL.Repositories.Warehouse
             db.Entry(srchEntity).State = EntityState.Modified;
             await db.SaveChangesAsync();
         }
-
-        //public async Task RestoreProduct(int productId)
-        //{
-        //    var srchEntity = await Get(productId);
-        //    srchEntity.IsAvailable = true;
-        //    db.Entry(srchEntity).State = EntityState.Modified;
-        //    await db.SaveChangesAsync();
-        //}
     }
 }

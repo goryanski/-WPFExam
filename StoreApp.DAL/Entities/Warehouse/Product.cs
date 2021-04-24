@@ -10,7 +10,7 @@ namespace StoreApp.DAL.Entities.Warehouse
         public double Weight { get; set; }
         public decimal PrimeCost { get; set; }
         public decimal Price { get; set; } // price for stores
-        public bool IsAvailable { get; set; } // not sold, not wrote off
+        public bool IsAvailable { get; set; } // not sold, not wrote off, not deleted
         public DateTime ArrivalDate { get; set; }
         public DateTime SellBy { get; set; }
         public int AmountInStorage { get; set; }

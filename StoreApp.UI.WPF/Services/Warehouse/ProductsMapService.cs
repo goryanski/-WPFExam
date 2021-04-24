@@ -57,12 +57,6 @@ namespace StoreApp.UI.WPF.Services.Warehouse
             return objectMapper.Mapper.Map<List<ProductUI>>(result);
         }
 
-        internal async Task<List<ProductUI>> GetProductsWriteOffSoon()
-        {
-            var result = await services.ProductsService.GetProductsWriteOffSoon();
-            return objectMapper.Mapper.Map<List<ProductUI>>(result);
-        }
-
         internal async Task<List<ProductUI>> GetProductsBySearchText(string srchText)
         {
             var result = await services.ProductsService.GetProductsBySearchText(srchText);
@@ -87,6 +81,17 @@ namespace StoreApp.UI.WPF.Services.Warehouse
         internal async Task ReturnProductToWarehouse(int productIdToRestore, int countTorestore)
         {
             await services.ProductsService.RestoreProduct(productIdToRestore, countTorestore);
+        }
+
+        internal async Task<List<ProductUI>> GetProductsWriteOffSoon()
+        {
+            var result = await services.ProductsService.GetProductsWriteOffSoon();
+            return objectMapper.Mapper.Map<List<ProductUI>>(result);
+        }
+        internal async Task<List<ProductUI>> GetProductsOverdue()
+        {
+            var result = await services.ProductsService.GetProductsOverdue();
+            return objectMapper.Mapper.Map<List<ProductUI>>(result);
         }
     }
 }

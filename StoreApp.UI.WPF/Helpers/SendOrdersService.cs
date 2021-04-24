@@ -8,6 +8,7 @@ using StoreApp.DAL;
 
 namespace StoreApp.UI.WPF.Helpers
 {
+    // for send orders to provisioners by post
     public class SendOrdersService
     {
         public async Task SendMailMessage(string toMail, string subject, string body, bool isBodyHtml = false, ICollection<Attachment> attachments = null)

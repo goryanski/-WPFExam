@@ -203,7 +203,7 @@ namespace StoreApp.DAL.Repositories
                 Price = 59.50m,
                 IsAvailable = true,
                 ArrivalDate = DateTime.Now.AddDays(-3),
-                SellBy = DateTime.Now.AddDays(+5),
+                SellBy = DateTime.Now.AddDays(-1),
                 AmountInStorage = 10000,
                 PhotoPath = "https://img2.zakaz.ua/src.1614861560.ad72436478c_2021-03-04_Victor/src.1614861560.SNCPSG10.obj.0.1.jpg.oe.jpg.pf.jpg.1350nowm.jpg.1350x.jpg",
                 CategoryId = category1.Id,
@@ -302,7 +302,7 @@ namespace StoreApp.DAL.Repositories
                 Price = 42.60m,
                 IsAvailable = true,
                 ArrivalDate = DateTime.Now.AddDays(-1),
-                SellBy = DateTime.Now.AddDays(+10),
+                SellBy = DateTime.Now.AddDays(-1),
                 AmountInStorage = 10000,
                 PhotoPath = "https://img2.zakaz.ua/src.1605017085.ad72436478c_2020-11-10_Victor/src.1605017085.SNCPSG10.obj.0.1.jpg.oe.jpg.pf.jpg.150nowm.jpg.150x.jpg",
                 CategoryId = category2.Id,
@@ -1424,7 +1424,7 @@ namespace StoreApp.DAL.Repositories
             db.SaveChanges();
         }
 
-        #region Change products images helper metods
+        #region Change products images helper methods
         private void ChangeProductImageToLocal(Product product, string downloadImagesFolder)
         {
             WebClient wc = new WebClient();

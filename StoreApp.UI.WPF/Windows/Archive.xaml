@@ -15,7 +15,27 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         
         Title="Archive" Height="600" Width="1000" Background="#b3e4fc">
- 
+
+    <Window.Resources>
+        <Style x:Key="BtnArchiveStyle" TargetType="Button"  
+               BasedOn="{StaticResource BtnStandartStyle}">
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <Style x:Key="TbCaptionStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Foreground" Value="Blue"/>
+        </Style>
+        <Style x:Key="TbNotFoundStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="FontFamily" Value="Perpetua Titling MT"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+    </Window.Resources>
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
@@ -37,15 +57,15 @@
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
 
+        <!--ListBox caption-->
         <TextBlock Text="*Wrote off products list:"
                    Grid.Column="1"
-                   VerticalAlignment="Bottom"
-                   Foreground="Blue"/>
+                   Style="{StaticResource TbCaptionStyle}"/>
         <TextBlock Text="*Sold products list:"
                    Grid.Column="5"
-                   VerticalAlignment="Bottom"
-                   Foreground="Blue"/>
+                   Style="{StaticResource TbCaptionStyle}"/>
 
+        
         <!--#region ListBox WroteOffProducts-->
         <ListBox Style="{StaticResource MyListBox}"
                  Grid.Row="1" Grid.Column="1"
@@ -65,34 +85,29 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Margin="0 5 0 5">
-                            <Label FontSize="16px" 
-                                   FontWeight="Bold"> 
+                            <Label Style="{StaticResource LblBoldStyle}"> 
                                 <Label.Content>
                                     <TextBlock Text="{Binding Name}"
                                                 Foreground="Red"/>
                                 </Label.Content>
                             </Label>
                             <StackPanel Orientation="Horizontal">
-                                <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                     <Label.Content>
                                         <TextBlock Text="Amount: "/>
                                     </Label.Content>
                                 </Label>
-                                <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                     <Label.Content>
                                         <TextBlock Text="{Binding Amount}"/>
                                     </Label.Content>
                                 </Label>
-                                <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                     <Label.Content>
                                         <TextBlock Text=" |  Date: "/>
                                     </Label.Content>
                                 </Label>
-                                <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                     <Label.Content>
                                         <TextBlock Text="{Binding Date, StringFormat='dd/MM/yyyy'}"/>
                                     </Label.Content>
@@ -108,13 +123,8 @@
 
         <TextBlock Name="tbWroteOffProductsNotFound"
                    Text="Not found"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
                    Grid.Row="3" Grid.Column="1"  
-                   FontFamily="Perpetua Titling MT"
-                   FontWeight="DemiBold"
-                   FontSize="20"
-                   Foreground="Blue"/>
+                   Style="{StaticResource TbNotFoundStyle}"/>
         <!--#endregion-->
 
         <!--#region ListBox SoldProducts-->
@@ -136,8 +146,7 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Margin="0 5 0 5">
-                            <Label FontSize="16px" 
-                                   FontWeight="Bold">
+                            <Label Style="{StaticResource LblBoldStyle}">
                                 <Label.Content>
                                     <TextBlock Text="{Binding ProductName}"
                                                 Foreground="Red"/>
@@ -145,26 +154,22 @@
                             </Label>
 
                             <StackPanel Orientation="Horizontal">
-                                <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                     <Label.Content>
                                         <TextBlock Text="Shop: "/>
                                     </Label.Content>
                                 </Label>
-                                <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                     <Label.Content>
                                         <TextBlock Text="{Binding ShopName}"/>
                                     </Label.Content>
                                 </Label>
-                                <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                     <Label.Content>
                                         <TextBlock Text=" |  Amount: "/>
                                     </Label.Content>
                                 </Label>
-                                <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                     <Label.Content>
                                         <TextBlock Text="{Binding Amount}"/>
                                     </Label.Content>
@@ -172,14 +177,12 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
-                            <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                 <Label.Content>
                                     <TextBlock Text="Date: "/>
                                 </Label.Content>
                             </Label>
-                            <Label FontSize="16px" 
-                                       FontWeight="Bold">
+                                <Label Style="{StaticResource LblBoldStyle}">
                                 <Label.Content>
                                     <TextBlock Text="{Binding SoldDate, StringFormat='dd/MM/yyyy'}"/>
                                 </Label.Content>
@@ -194,13 +197,8 @@
 
         <TextBlock Name="tbSoldProductsNotFound"
                    Text="Not found"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
                    Grid.Row="3" Grid.Column="5"  
-                   FontFamily="Perpetua Titling MT"
-                   FontWeight="DemiBold" 
-                   FontSize="20"
-                   Foreground="Blue"/>
+                   Style="{StaticResource TbNotFoundStyle}"/>
         <!--#endregion-->
 
         <!--#region Select date range-->
@@ -212,7 +210,6 @@
                     Margin="0 0 0 20"
                     SelectedDate="{Binding DateFrom}"
                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-        <!--Text="{Binding DefaultDateFrom,  StringFormat='dd.MM.yyyy'}"-->
         <DatePicker Grid.Column="3" Grid.Row="2"
                     Width="100"
                     materialDesign:HintAssist.Hint="Date To"
@@ -220,14 +217,12 @@
                     VerticalAlignment="Top"
                     SelectedDate="{Binding DateTo}"
                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-        <!-- Text="{Binding DefaultDateTo,  StringFormat='dd.MM.yyyy'}"-->
 
         <Button Content="show range" 
                 Grid.Column="3" Grid.Row="2" 
                 Grid.RowSpan="2"
-                Margin="10"
                 Command="{Binding ShowRangeCommand}"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnArchiveStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10"/>
 
         <!--#endregion-->
@@ -237,9 +232,8 @@
         <Button Name="btnDeleteItem"
                 Grid.Column="3" Grid.Row="3" 
                 Grid.RowSpan="2"
-                Margin="10"
                 Command="{Binding ShowOrdersArchiveCommand}" 
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnArchiveStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10">
             <Button.Content>
                 <StackPanel HorizontalAlignment="Center"> 
@@ -253,9 +247,8 @@
         <Button Content="Back" 
                 Name="btnBack"
                 Click="BtnBack_Click"
-                Grid.Column="3" Grid.Row="5" 
-                Margin="10"
-                Style="{StaticResource BtnStandartStyle}"
+                Grid.Column="3" Grid.Row="5"
+                Style="{StaticResource BtnArchiveStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10"/>
     </Grid>
 </Window>

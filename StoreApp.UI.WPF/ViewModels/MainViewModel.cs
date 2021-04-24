@@ -177,6 +177,22 @@ namespace StoreApp.UI.WPF.ViewModels
         }
         #endregion
 
+        #region OverdueCommand
+        private ProcessCommand _overdueCommand;
+
+        public ProcessCommand OverdueCommand => _overdueCommand ?? (_overdueCommand = new ProcessCommand(obj =>
+        {
+            GetProductsOverdue();
+        }));
+
+        private async void GetProductsOverdue()
+        {
+            Products.Clear();
+            Products.AddRange(await services.ProductsMapService.GetProductsOverdue());
+            CheckProductsCount();
+        }
+        #endregion
+
         #endregion
 
 

@@ -26,7 +26,10 @@ namespace StoreApp.UI.WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
     /*
+     * Db init - StoreApp.DAL.Repositories.UnitOfWork
+     
             User user1 = new User
             {
                 Login = "admin",
@@ -56,7 +59,6 @@ namespace StoreApp.UI.WPF
             MainViewModelSubscriptions();
 
             this.Loaded += MainWindow_Loaded;
-            this.Closing += MainWindow_Closing;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
@@ -69,20 +71,7 @@ namespace StoreApp.UI.WPF
             viewModel.StartEditProductEvent += ViewModel_StartEditProductEvent;
         }
 
-        
-
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            // forbid to close window
-            //e.Cancel = true;
-        }
-
         #region MainViewModel Events
-        //private void ViewModel_StartAddProductEvent(ProductUI product)
-        //{
-            
-        //}
-
         private void ViewModel_DeleteProductByCountCompleteEvent()
         {
             tbDeleteProductCount.Text = string.Empty;
@@ -106,9 +95,7 @@ namespace StoreApp.UI.WPF
         {
             tbNotFound.Visibility = Visibility.Visible;
         }
-
         #endregion
-
 
         #region Load
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -117,20 +104,10 @@ namespace StoreApp.UI.WPF
             tbNotFound.Visibility = Visibility.Hidden;
             lblLoading.Visibility = Visibility.Visible;
             lblPrompt.Visibility = Visibility.Hidden;
-            SetDefaultSearchText();
-            //BlockAuthenticatedUserActions();
-            RightPanelExpandersInit();
 
-            //Task.Run(() => 
-            //{
-            //    LoadWindow wnd = new LoadWindow(Settings.LoadImage)
-            //    {
-            //        WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            //        //Owner = this
-            //    };
-            //     wnd.ShowDialog();
-            //});
-            
+            SetDefaultSearchText();
+            BlockAuthenticatedUserActions();
+            RightPanelExpandersInit();
         }
 
         private void BlockAuthenticatedUserActions()
@@ -169,7 +146,6 @@ namespace StoreApp.UI.WPF
             if (!tbxSearch.Text.Equals(defaultSearchText) &&
                 !tbxSearch.Text.Equals(string.Empty))
             {
-
                 viewModel.TextBoxSearchText = tbxSearch.Text;
             }
         }
@@ -268,7 +244,6 @@ namespace StoreApp.UI.WPF
             }
             return -1;
         }
-
         #endregion
 
         #region Add product, Edit product, add category
@@ -299,46 +274,15 @@ namespace StoreApp.UI.WPF
             };
             if (wnd.ShowDialog() == true)
             {
-                //wnd.FilledProduct.SelectionLabel = "Selected";
-                //viewModel.ListBoxSelectedProduct = null;
-                //viewModel.UpdateSelectedProduct(wnd.FilledProduct);
                 viewModel.ListBoxSelectedProduct = null;
-                viewModel.UpdateProducts(/*wnd.FilledProduct*/);
-                //UpdateProducts(wnd);
+                viewModel.UpdateProducts();
             }
         }
-
-        //private async void UpdateProducts(ProductEditor wnd)
-        //{
-            
-        //    await 
-        //}
-
-
-        private void CbShops_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void btnWriteOff_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnAddToShop_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnAddToBasket_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         #endregion
 
         #endregion
 
-        #region Login +
+        #region Login
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             if(btnLogin.Content.ToString() == "Login")
@@ -374,13 +318,7 @@ namespace StoreApp.UI.WPF
         }
         #endregion
 
-        #region Top panel Buttons
-
-        #region sorting
-
-        #endregion
-
-        #region Authenticated User Actions
+        #region Top panel Buttons (Authenticated User Actions)
         private void BtnAdminPanel_Click(object sender, RoutedEventArgs e)
         {
             AdminPanel wnd = new AdminPanel()
@@ -417,8 +355,6 @@ namespace StoreApp.UI.WPF
         }
         #endregion
 
-        #endregion
-
         #region Main ListBox Products
 
         // ShowProductButton
@@ -444,7 +380,5 @@ namespace StoreApp.UI.WPF
         #endregion
 
         private void SetDefaultSearchText() => tbxSearch.Text = defaultSearchText;
-
-       
     }
 }

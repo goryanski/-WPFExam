@@ -15,6 +15,15 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         
         Title="Authentication" Height="300" Width="350" Background="#b3e4fc">
+
+    <Window.Resources>
+        <Style x:Key="TbStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
@@ -29,18 +38,14 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Login:" 
-                   HorizontalAlignment="Right"
                    VerticalAlignment="Bottom"
                    Margin="0 0 0 4"
-                   FontSize="15"
-                   FontStyle="Italic"/>
+                   Style="{StaticResource TbStyle}"/>
         <TextBlock Text="Password:" 
                    Grid.Row="1"
-                   HorizontalAlignment="Right"
                    VerticalAlignment="Center"
-                   FontSize="15"
-                   FontStyle="Italic"/>
-
+                   Style="{StaticResource TbStyle}"/>
+ 
  
         <TextBox Name="tbxLogin"
                  Text="{Binding UserLogin}"

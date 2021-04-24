@@ -11,7 +11,7 @@ using StoreApp.DAL.Interfaces;
 
 namespace StoreApp.BLL.Services
 {
-    public class UsersService //: IUsersService
+    public class UsersService : IUsersService
     {
         private IUnitOfWork uow;
         private Automapper.ObjectMapper objectMapper = Automapper.ObjectMapper.Instance;

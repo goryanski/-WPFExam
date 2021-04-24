@@ -4,6 +4,7 @@ using System.Text;
 
 namespace StoreApp.UI.WPF.Helpers.ExtraModels
 {
+    // extra model - only for display in archive window
     public class SoldProductExtraModel
     {
         public int Id { get; set; }

@@ -83,7 +83,7 @@ namespace StoreApp.UI.WPF.ViewModels
                 }
 
 
-                // get id of rovisioners to form orders files
+                // get id of provisioners to form orders files
                 var provisionersId = DbOrders.Select(o => o.ProvisionerId).ToList();
                 var unicIdProvisioners = provisionersId.Distinct().ToList();
                 
@@ -139,7 +139,6 @@ namespace StoreApp.UI.WPF.ViewModels
         {
             OrderUI groupedOrder = obj as OrderUI;
             DeleteOrderByCommand(groupedOrder, true);
-            //DeleteOrder(groupedOrder, true);
 
         }, obj => obj != null));
 

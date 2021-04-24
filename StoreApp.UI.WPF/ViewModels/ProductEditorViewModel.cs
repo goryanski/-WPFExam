@@ -24,7 +24,7 @@ namespace StoreApp.UI.WPF.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
         MapServicesStorage services = MapServicesStorage.Instance;
-        //public int SelectedProductId { get; set; }
+
         int _id;
         public int SelectedProductId
         {
@@ -67,6 +67,7 @@ namespace StoreApp.UI.WPF.ViewModels
                 }
             }
         }
+
         WarehouseSectionUI _section;
         public WarehouseSectionUI SelectedSection
         {
@@ -80,6 +81,7 @@ namespace StoreApp.UI.WPF.ViewModels
                 }
             }
         }
+
         ProvisionerUI _provisioner;
         public ProvisionerUI SelectedProvisioner
         {
@@ -93,6 +95,7 @@ namespace StoreApp.UI.WPF.ViewModels
                 }
             }
         }
+
         DateTime _date;
         public DateTime ProductMaximumSaleDate
         {
@@ -112,10 +115,6 @@ namespace StoreApp.UI.WPF.ViewModels
         public ObservableCollection<WarehouseSectionUI> Sections { get; set; } = new ObservableCollection<WarehouseSectionUI>();
         public ObservableCollection<ProvisionerUI> Provisioners { get; set; } = new ObservableCollection<ProvisionerUI>();
 
-        public ProductEditorViewModel()
-        {
-            //Init();
-        }
 
         private async void Init()
         {
@@ -169,7 +168,6 @@ namespace StoreApp.UI.WPF.ViewModels
         #endregion
 
         #region Save product
-
 
         ProductValidator productValidator = new ProductValidator();
         public event Action OperationCompleteEvent;

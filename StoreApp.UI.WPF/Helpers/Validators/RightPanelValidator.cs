@@ -55,10 +55,6 @@ namespace StoreApp.UI.WPF.Helpers.Validators
             {
                 throw new InvalidDataException("There're not enough products in stock");
             }
-            //else if(count == amountProductsInStock)
-            //{
-            //    throw new InvalidDataException("Use button 'Delete all' to delete all products");
-            //}
             else if(productsCount <= 0)
             {
                 throw new InvalidDataException("Incorrect entered products count.");

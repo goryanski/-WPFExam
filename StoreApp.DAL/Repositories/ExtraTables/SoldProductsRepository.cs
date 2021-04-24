@@ -27,14 +27,6 @@ namespace StoreApp.DAL.Repositories.ExtraTables
 
         public override async Task Update(SoldProduct entity)
         {
-            //// получаем сущность из БД
-            //var srchEntity = await Get(entity.Id);
-            //// меняем сущность
-            //srchEntity.Name = entity.Name;
-            //// меняе ее статус 
-            //db.Entry(srchEntity).State = System.Data.Entity.EntityState.Modified;
-            //// сохраняем изменения
-            //await db.SaveChangesAsync();
         }
 
         public int GetGeneralAmountProductSalesById(int id)

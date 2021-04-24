@@ -15,6 +15,25 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         
        Title="BooksEditor" Height="700" Width="500"  Background="#b3e4fc">
+
+    <Window.Resources>
+        <Style x:Key="TbxEditorInputStyle" TargetType="TextBox"  
+               BasedOn="{StaticResource TbxInputStyle}">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+        </Style>
+        <Style x:Key="TbEditorStandartStyle" TargetType="TextBlock"  
+               BasedOn="{StaticResource TbStandartStyle}">
+            <Setter Property="FontFamily" Value="Roboto"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+        </Style>
+        <Style x:Key="BtnEditorStyle" TargetType="Button"  
+               BasedOn="{StaticResource BtnStandartStyle}">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.01*"/>
@@ -91,8 +110,7 @@
                     Height="40"
                     SelectedItem="{Binding SelectedCategory}"
                     x:Name="cbCategories" 
-                    ItemsSource="{Binding Categories}" 
-                   >
+                    ItemsSource="{Binding Categories}" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -195,7 +213,6 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
 <!--#endregion-->
-
         
         <!--#region Add Provisioner-->
         <materialDesign:Card Grid.Row="11"
@@ -218,30 +235,22 @@
                             <ColumnDefinition Width="10*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Name:"
-                                   Style="{StaticResource TbStandartStyle}"
-                                   Margin="10"
-                                   FontFamily="Roboto"
-                                   FontWeight="Normal"/>
+                                   Style="{StaticResource TbEditorStandartStyle}"
+                                   Margin="10"/>
                         <TextBlock Text="Mail:"
                                    Grid.Row="1"
                                    Margin="10 5 10 10"
-                                   Style="{StaticResource TbStandartStyle}"
-                                   FontFamily="Roboto"
-                                   FontWeight="Normal"/>
+                                   Style="{StaticResource TbEditorStandartStyle}"/>
                         <TextBox Name="tbProvisionerName" 
                                  Grid.Column="1" 
                                  Text="{Binding ProvisionerName}"
                                  Margin="0 0 0 7"
-                                 Style="{StaticResource TbxInputStyle}"
-                                 FontFamily="Roboto"
-                                 FontWeight="Normal"/>
+                                 Style="{StaticResource TbxEditorInputStyle}"/>
                         <TextBox Name="tbProvisionerMail" 
                                  Grid.Column="1" Grid.Row="1" 
                                  Text="{Binding ProvisionerMail}"
                                  Margin="0 0 0 7"
-                                 Style="{StaticResource TbxInputStyle}"
-                                 FontFamily="Roboto"
-                                 FontWeight="Normal"/>
+                                 Style="{StaticResource TbxEditorInputStyle}"/>
                         <Button Content="+"
                                 Name="btnOk"
                                 Command="{Binding AddProvisionerCommand}"
@@ -253,7 +262,6 @@
                                 Margin="15"/>
                     </Grid>
                 </Expander>
-                <!--#endregion-->
             </StackPanel>
         </materialDesign:Card>
         <!--#endregion-->
@@ -263,16 +271,14 @@
                 Click="BtnCancel_Click"
                 VerticalAlignment="Bottom" HorizontalAlignment="Right"
                 Grid.Row="17"
-                Width="100" Height="40"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnEditorStyle}"
                 Margin="0 0 0 20"/>
         <Button Content="Save"
                 Name="btnSave"
                 Command="{Binding SaveCommand}"
                 VerticalAlignment="Bottom" HorizontalAlignment="Center"
                 Grid.Row="17" Grid.Column="1"
-                Width="100" Height="40"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnEditorStyle}"
                 Margin="0 0 0 20"/>
     </Grid>
 </Window>

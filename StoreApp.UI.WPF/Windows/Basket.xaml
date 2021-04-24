@@ -16,6 +16,13 @@
         
         Title="Basket" Height="450" Width="500" Background="#b3e4fc">
 
+    <Window.Resources>
+        <Style x:Key="BtnBasketStyle" TargetType="Button"  
+               BasedOn="{StaticResource BtnStandartStyle}">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
@@ -55,15 +62,13 @@
 
 
                         <StackPanel Orientation="Horizontal">
-                            <Label FontSize="16px" 
-                           FontWeight="Bold">
+                            <Label Style="{StaticResource LblBoldStyle}">
                                 <Label.Content>
                                     <TextBlock Text="{Binding ProductName}"
                                                TextWrapping="Wrap"/>
                                 </Label.Content>
                             </Label>
-                            <Label FontSize="16px" 
-                           FontWeight="Bold">
+                            <Label Style="{StaticResource LblBoldStyle}">
                                 <Label.Content>
                                     <TextBlock Text="{Binding CountToOrder}"
                                                Foreground="Red"/>
@@ -75,36 +80,32 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
+        
+        
         <Button Content="Order all" 
                 Name="btnOrderAll"
-                Click="BtnOrderAll_Click"
                 Grid.Column="3" Grid.Row="1" 
-                Margin="0"
                 Command="{Binding OrderAllCommand}" 
                 CommandParameter="{Binding SelectedListBoxOrder}"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnBasketStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10"/>
         <Button Content="Delete item" 
                 Name="btnDeleteItem"
                 Grid.Column="3" Grid.Row="2" 
-                Margin="0"
                 Command="{Binding DeleteItemCommand}" 
                 CommandParameter="{Binding SelectedListBoxOrder}"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnBasketStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10"/>
         <Button Content="Open folder" 
                 Name="btnOpenFolder"
                 Command="{Binding OpenFolderCommand}"
                 Grid.Column="3" Grid.Row="3" 
-                Margin="0"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnBasketStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10"/>
         <Button Name="btnSendOrder"
-                Click="BtnSendOrder_Click"
                 Command="{Binding SendOrdersCommand}" 
                 Grid.Column="3" Grid.Row="4"
-                Margin="0"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnBasketStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10">
             <TextBlock Style="{StaticResource TbButtonStyle}"
                        Text="Send Orders" />
@@ -114,8 +115,7 @@
                     Name="btnBack"
                     Click="BtnBack_Click"
                     Grid.Column="3" Grid.Row="5" 
-                    Margin="0"
-                    Style="{StaticResource BtnStandartStyle}"
+                    Style="{StaticResource BtnBasketStyle}"
                     materialDesign:ButtonAssist.CornerRadius="10"/>
     </Grid>
 </Window>

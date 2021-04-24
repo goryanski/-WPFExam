@@ -15,6 +15,13 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         
         Title="AdminPanel" Height="450" Width="500" Background="#b3e4fc">
+
+    <Window.Resources>
+        <Style x:Key="BtnAdminPanelStyle" TargetType="Button"  
+               BasedOn="{StaticResource BtnStandartStyle}">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+    </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -51,17 +58,15 @@
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="0.5*" />
                         </Grid.ColumnDefinitions>
-
+ 
                         <!--Login-->
                         <StackPanel Orientation="Horizontal">
-                            <Label FontSize="16px" 
-                                   FontStyle="Italic">
+                            <Label Style="{StaticResource LblItalicStyle}">
                                 <Label.Content>
                                     <TextBlock Text="Login: "/>
                                 </Label.Content>
                             </Label>
-                            <Label FontSize="16px" 
-                           FontWeight="Bold">
+                            <Label Style="{StaticResource LblBoldStyle}">
                                 <Label.Content>
                                     <TextBlock Text="{Binding Login}"/>
                                 </Label.Content>
@@ -71,22 +76,19 @@
                         <!--Password-->
                         <StackPanel Orientation="Horizontal"
                                     Grid.Row="1">
-                            <Label FontSize="16px" 
-                                   FontStyle="Italic">
+                            <Label Style="{StaticResource LblItalicStyle}">
                                 <Label.Content>
                                     <TextBlock Text="Password: "/>
                                 </Label.Content>
                             </Label>
-                            <Label FontSize="16px" 
-                           FontWeight="Bold">
+                            <Label Style="{StaticResource LblBoldStyle}">
                                 <Label.Content>
                                     <TextBlock Text="{Binding Password}"/>
                                 </Label.Content>
                             </Label>
                         </StackPanel>
-                        
-                        <Label FontSize="16px" 
-                               FontWeight="Bold"
+
+                        <Label Style="{StaticResource LblBoldStyle}"
                                Grid.Column="1" Grid.RowSpan="2"
                                VerticalAlignment="Center"
                                Margin="40 0 0 0">
@@ -104,36 +106,29 @@
                 Name="btnAddUser"
                 Click="BtnAddUser_Click"
                 Grid.Column="3" Grid.Row="1" 
-                Margin="0"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnAdminPanelStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10"/>
         <Button Content="Delete user" 
                 Name="btnDeleteUser"
                 Command="{Binding RemoveCommand}" 
                 CommandParameter="{Binding SelectedListBoxUser}"
                 Grid.Column="3" Grid.Row="2" 
-                Margin="0"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnAdminPanelStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10"/>
         <Button Name="btnChangeUserData"
                 Click="BtnChangeUserData_Click"
                 Grid.Column="3" Grid.Row="3"
-                Margin="0"
-                Style="{StaticResource BtnStandartStyle}"
+                Style="{StaticResource BtnAdminPanelStyle}"
                 materialDesign:ButtonAssist.CornerRadius="10">
             <TextBlock Style="{StaticResource TbButtonStyle}"
                        Text="Change user Data" />
         </Button>
 
-            <Button Content="Back" 
+        <Button Content="Back" 
                     Name="btnBack"
                     Click="BtnBack_Click"
                     Grid.Column="3" Grid.Row="4" 
-                    Margin="0"
-                    Style="{StaticResource BtnStandartStyle}"
+                    Style="{StaticResource BtnAdminPanelStyle}"
                     materialDesign:ButtonAssist.CornerRadius="10"/>
-        
-        <!--TODO?: Edit User-->
-        
     </Grid>
 </Window>
