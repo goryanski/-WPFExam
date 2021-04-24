@@ -45,7 +45,7 @@ namespace StoreApp.UI.WPF.Services.ExtraTables
             List<WroteOffProductExtraModel> viewWroteOffProducts = new List<WroteOffProductExtraModel>();
             foreach (var product in wroteOffDbProducts)
             {
-                ProductDTO productDTO = await services.ProductsService.GetProductById(product.Id);
+                ProductDTO productDTO = await services.ProductsService.GetProductById(product.ProductId);
                 WroteOffProductExtraModel viewProduct = new WroteOffProductExtraModel
                 {
                     Name = productDTO.Name,

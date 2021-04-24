@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
+using StoreApp.DAL;
 using StoreApp.UI.WPF.Commands;
 using StoreApp.UI.WPF.Extensions;
 using StoreApp.UI.WPF.Helpers;
@@ -25,6 +29,10 @@ namespace StoreApp.UI.WPF.ViewModels
         public ObservableCollection<WroteOffProductExtraModel> WroteOffProducts { get; set; } = new ObservableCollection<WroteOffProductExtraModel>();
         public ObservableCollection<SoldProductExtraModel> SoldProducts { get; set; } = new ObservableCollection<SoldProductExtraModel>();
 
+        public event Action NoWroteOffProductsFoundEvent;
+        public event Action SomeWroteOffProductsFoundEvent;
+        public event Action NoSoldProductsFoundEvent;
+        public event Action SomeSoldProductsFoundEvent;
 
         public void Start()
         {
@@ -43,6 +51,29 @@ namespace StoreApp.UI.WPF.ViewModels
             (
                 await services.SoldProductsMapService.GetLastProducts()
             );
+
+            CheckProductsCount();
+        }
+
+        private void CheckProductsCount()
+        {
+            if (WroteOffProducts.Count == 0)
+            {
+                NoWroteOffProductsFoundEvent?.Invoke();
+            }
+            else
+            {
+                SomeWroteOffProductsFoundEvent?.Invoke();
+            }
+
+            if (SoldProducts.Count == 0)
+            {
+                NoSoldProductsFoundEvent?.Invoke();
+            }
+            else
+            {
+                SomeSoldProductsFoundEvent?.Invoke();
+            }
         }
 
 
@@ -96,33 +127,37 @@ namespace StoreApp.UI.WPF.ViewModels
         {
             if(validator.IsDatesValid(DateFrom, DateTo))
             {
-                // WroteOffProducts
                 WroteOffProducts.Clear();
+                SoldProducts.Clear();
+
                 WroteOffProducts.AddRange
                 (
                     await services.WroteOffProductsMapService.GetProductsByRange(DateFrom, DateTo)
                 );
-                
-                if(WroteOffProducts.Count == 0)
-                {
-                    
-                }
-
-
-
-                // SoldProducts
-                SoldProducts.Clear();
                 SoldProducts.AddRange
                 (
                     await services.SoldProductsMapService.GetProductsByRange(DateFrom, DateTo)
                 );
 
-                if (SoldProducts.Count == 0)
-                {
-
-                }
+                CheckProductsCount();
             }
         }
+        #endregion
+
+        #region ShowOrdersArchiveCommand
+        private ProcessCommand _showOrdersArchiveCommand;
+
+        public ProcessCommand ShowOrdersArchiveCommand => _showOrdersArchiveCommand ?? (_showOrdersArchiveCommand = new ProcessCommand(obj =>
+        {
+            if (Directory.Exists(Settings.OrdersDirectoryArchiveFolder))
+            {
+                Process.Start("explorer.exe", Settings.OrdersDirectoryArchiveFolder);
+            }
+            else
+            {
+                MessageBox.Show("Archive directory with orders has been deleted", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }));
         #endregion
 
 

@@ -23,7 +23,44 @@ namespace StoreApp.UI.WPF.Windows
         {
             InitializeComponent();
             DataContext = viewModel;
+            ViewModelSubscriptions();
             viewModel.Start();
+        }
+
+        private void ViewModelSubscriptions()
+        {
+            viewModel.NoWroteOffProductsFoundEvent += ViewModel_NoWroteOffProductsFoundEvent;
+            viewModel.SomeWroteOffProductsFoundEvent += ViewModel_SomeWroteOffProductsFoundEvent;
+            viewModel.NoSoldProductsFoundEvent += ViewModel_NoSoldProductsFoundEvent;
+            viewModel.SomeSoldProductsFoundEvent += ViewModel_SomeSoldProductsFoundEvent;
+        }
+
+        #region Products not found label - visible/hidden
+        private void ViewModel_SomeSoldProductsFoundEvent()
+        {
+            tbSoldProductsNotFound.Visibility = Visibility.Hidden;
+        }
+
+        private void ViewModel_NoSoldProductsFoundEvent()
+        {
+            tbSoldProductsNotFound.Visibility = Visibility.Visible;
+        }
+
+        private void ViewModel_SomeWroteOffProductsFoundEvent()
+        {
+            tbWroteOffProductsNotFound.Visibility = Visibility.Hidden;
+        }
+
+        private void ViewModel_NoWroteOffProductsFoundEvent()
+        {
+            tbWroteOffProductsNotFound.Visibility = Visibility.Visible;
+        }
+        #endregion
+
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
