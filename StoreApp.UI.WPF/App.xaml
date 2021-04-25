@@ -117,17 +117,14 @@
                 <Setter Property="FontWeight" Value="Bold"/>
             </Style>
 
-            
-            
+
             <!--To reset MaterialDesig styles-->
             <Style x:Key="MyListBox" TargetType="ListBox">
                 <Style.Setters>
-                    
                 </Style.Setters>
             </Style>
             <Style x:Key="MyTextBox" TargetType="TextBox">
                 <Style.Setters>
-
                 </Style.Setters>
             </Style>
         </ResourceDictionary>
