@@ -8,7 +8,7 @@ namespace StoreApp.BLL.Interfaces
 {
     public interface IShopsService
     {
-        void CreateShop(ShopDTO user);
+        Task CreateShop(ShopDTO user);
         Task<ShopDTO> GetShopById(int id);
     }
 }

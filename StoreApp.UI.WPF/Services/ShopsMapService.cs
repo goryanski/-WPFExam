@@ -13,10 +13,10 @@ namespace StoreApp.UI.WPF.Services
         private Automapper.ObjectMapper objectMapper = Automapper.ObjectMapper.Instance;
         BLLServicesStorage services = BLLServicesStorage.Instance;
 
-        public void CreateShop(ShopUI shopUI)
+        public async Task CreateShop(ShopUI shopUI)
         {
             ShopDTO shopDTO = objectMapper.Mapper.Map<ShopDTO>(shopUI);
-            services.ShopsService.CreateShop(shopDTO);
+            await services.ShopsService.CreateShop(shopDTO);
         }
 
         public async Task<ShopUI> GetShopById(int id)
@@ -29,6 +29,12 @@ namespace StoreApp.UI.WPF.Services
         {
             var result = await services.ShopsService.GetAllShops();
             return objectMapper.Mapper.Map<List<ShopUI>>(result);
+        }
+
+        internal async Task<ShopUI> GetLastAddedShop()
+        {
+            var result = await services.ShopsService.GetLastAddedShop();
+            return objectMapper.Mapper.Map<ShopUI>(result);
         }
     }
 }

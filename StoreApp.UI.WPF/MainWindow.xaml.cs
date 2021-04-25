@@ -106,7 +106,7 @@ namespace StoreApp.UI.WPF
             lblPrompt.Visibility = Visibility.Hidden;
 
             SetDefaultSearchText();
-            //BlockAuthenticatedUserActions();
+            BlockAuthenticatedUserActions();
             RightPanelExpandersInit();
         }
 
@@ -246,7 +246,7 @@ namespace StoreApp.UI.WPF
         }
         #endregion
 
-        #region Add product, Edit product, add category
+        #region Add product, Edit product, add category, add shop
         private void BtnAddCategory_Click(object sender, RoutedEventArgs e)
         {
             tbAddCategory.Text = string.Empty;
@@ -276,6 +276,21 @@ namespace StoreApp.UI.WPF
             {
                 viewModel.ListBoxSelectedProduct = null;
                 viewModel.UpdateProducts();
+            }
+        }
+
+        private void BtnAddNewShop_Click(object sender, RoutedEventArgs e)
+        {
+            AddNewShop wnd = new AddNewShop()
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = this
+            };
+            wnd.ShowDialog();
+
+            if (wnd.IsChangesInDb)
+            {
+                viewModel.UpdateShopsList();
             }
         }
         #endregion

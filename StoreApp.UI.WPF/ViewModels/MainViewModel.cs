@@ -288,6 +288,11 @@ namespace StoreApp.UI.WPF.ViewModels
             await services.WroteOffProductsMapService.CreateProduct(product);
         }
 
+        internal async void UpdateShopsList()
+        {
+            Shops.Add(await services.ShopsMapService.GetLastAddedShop());
+        }
+
         #endregion
 
         #region Put product To Basket

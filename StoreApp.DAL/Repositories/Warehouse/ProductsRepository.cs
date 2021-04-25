@@ -42,7 +42,7 @@ namespace StoreApp.DAL.Repositories.Warehouse
                     .OrderByDescending(p => p.Id)
                     .Take(1)
                     .First()
-                    .Id;
+                    .Id; // provisioners can't be too many, so take last provisioner's id in this way
             }
             srchEntity.SectionId = entity.SectionId;
             // change entity state

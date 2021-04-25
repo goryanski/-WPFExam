@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StoreApp.BLL.DTO;
@@ -20,9 +21,9 @@ namespace StoreApp.BLL.Services
             this.uow = uow;
         }
 
-        public void CreateShop(ShopDTO shop)
+        public async Task CreateShop(ShopDTO shop)
         {         
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 var result = objectMapper.Mapper.Map<Shop>(shop);
                 await uow.ShopsRepository.Create(result);
@@ -38,6 +39,17 @@ namespace StoreApp.BLL.Services
         {
             var result = await uow.ShopsRepository.GetAll();
             return objectMapper.Mapper.Map<List<ShopDTO>>(result);
+        }
+
+        public async Task<ShopDTO> GetLastAddedShop()
+        {
+            // shops can't be too many, so take last shop in this way:
+            var shops = await uow.ShopsRepository.GetAll();
+            var result = shops.OrderByDescending(p => p.Id)
+                    .Take(1)
+                    .First();
+
+            return objectMapper.Mapper.Map<ShopDTO>(result);
         }
     }
 }

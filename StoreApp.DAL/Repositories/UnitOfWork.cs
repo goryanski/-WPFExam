@@ -69,6 +69,8 @@ namespace StoreApp.DAL.Repositories
         public UnitOfWork(string connectionString)
         {
             db = new StoreContext(connectionString);
+
+            // we don't have to init db async, because we only need to do it once
             //DbInit();
         }
 
