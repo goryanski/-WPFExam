@@ -67,7 +67,7 @@ namespace StoreApp.UI.WPF
             viewModel.NoProductsFoundEvent += ViewModel_NoProductsFoundEvent;
             viewModel.SomeProductsFoundEvent += ViewModel_SomeProductsFoundEvent;
             viewModel.ProductsLoadCompleteEvent += ViewModel_ProductsLoadCompleteEvent;
-            viewModel.DeleteProductByCountCompleteEvent += ViewModel_DeleteProductByCountCompleteEvent;
+            viewModel.InputFieldsCanBeClearedEvent += ViewModel_DeleteProductByCountCompleteEvent;
             viewModel.StartEditProductEvent += ViewModel_StartEditProductEvent;
         }
 
@@ -106,7 +106,7 @@ namespace StoreApp.UI.WPF
             lblPrompt.Visibility = Visibility.Hidden;
 
             SetDefaultSearchText();
-            BlockAuthenticatedUserActions();
+            //BlockAuthenticatedUserActions();
             RightPanelExpandersInit();
         }
 

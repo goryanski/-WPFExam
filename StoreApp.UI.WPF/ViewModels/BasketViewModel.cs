@@ -65,7 +65,6 @@ namespace StoreApp.UI.WPF.ViewModels
         #endregion
 
         #region Order all
-        public event Action StartOrderAllEvent;
 
         private ProcessCommand _orderAllCommand;
 
@@ -73,9 +72,6 @@ namespace StoreApp.UI.WPF.ViewModels
         {
             if(GroupedOrders.Count > 0)
             {
-                // for UI
-                StartOrderAllEvent?.Invoke();
-
                 // directory for orders files
                 if (!Directory.Exists(Settings.OrdersDirectoryFolder))
                 {
@@ -122,7 +118,7 @@ namespace StoreApp.UI.WPF.ViewModels
             // delete orders from db 
             foreach (var order in GroupedOrders)
             {
-                await DeleteOrder(order, false);
+                await DeleteOrder(order, true);
             }
 
             // delete orders from collections
@@ -138,16 +134,16 @@ namespace StoreApp.UI.WPF.ViewModels
         public ProcessCommand DeleteItemCommand => _deleteItemCommand ?? (_deleteItemCommand = new ProcessCommand(obj =>
         {
             OrderUI groupedOrder = obj as OrderUI;
-            DeleteOrderByCommand(groupedOrder, true);
+            DeleteOrderByCommand(groupedOrder, false);
 
         }, obj => obj != null));
 
-        private async void DeleteOrderByCommand(OrderUI groupedOrder, bool v)
+        private async void DeleteOrderByCommand(OrderUI groupedOrder, bool deleteDuringOrder)
         {
-           await DeleteOrder(groupedOrder, true);
+           await DeleteOrder(groupedOrder, deleteDuringOrder);
         }
 
-        private async Task DeleteOrder(OrderUI groupedOrder, bool withRestore)
+        private async Task DeleteOrder(OrderUI groupedOrder, bool deleteDuringOrder, bool withRestore = false)
         {
             int productIdToReturn = -1;
 
@@ -162,6 +158,14 @@ namespace StoreApp.UI.WPF.ViewModels
             }
 
 
+            if (!deleteDuringOrder)
+            {
+                // for delete by pressed delete button
+                GroupedOrders.Remove(groupedOrder);
+            }
+
+
+            // not used now, this is for the future when this app will work in conjunction with the website (if customer (store or supermarket) add product in basket on website, but then refuses and removes the order from basket - product must to return to warehouse db)
             if (withRestore)
             {
                 GroupedOrders.Remove(groupedOrder);

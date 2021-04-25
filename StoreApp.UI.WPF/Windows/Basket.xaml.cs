@@ -27,25 +27,12 @@ namespace StoreApp.UI.WPF.Windows
             DataContext = viewModel;
             viewModel.Start();
             viewModel.OrderDeletionCompletedEvent += ViewModel_OrderDeletionCompletedEvent;
-            viewModel.StartOrderAllEvent += ViewModel_StartOrderAllEvent;
             IsChangesInDb = false;
-
-            BlockButtons(true);
-        }
-
-        private void ViewModel_StartOrderAllEvent()
-        {
-            BlockButtons(false);
         }
 
         private void ViewModel_OrderDeletionCompletedEvent()
         {
             IsChangesInDb = true;
-        }
-
-        private void BlockButtons(bool isBlocking)
-        {
-            btnOpenFolder.IsEnabled = btnSendOrder.IsEnabled = !isBlocking;
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)

@@ -248,7 +248,7 @@ namespace StoreApp.UI.WPF.ViewModels
         
 
         #region Delete product
-        public event Action DeleteProductByCountCompleteEvent;
+        public event Action InputFieldsCanBeClearedEvent;
 
         private ProcessCommand _deleteProductByCountCommand;
 
@@ -301,7 +301,8 @@ namespace StoreApp.UI.WPF.ViewModels
         private async void PutProductToBasket(int newAmountInStorageValue, bool selectAll, ProductUI selectedProduct, int countToSend)
         {
             await SendProductToBasket(selectedProduct, countToSend);
-            await DeleteProductFromDbAndUI(newAmountInStorageValue, selectAll, selectedProduct);
+            //await DeleteProductFromDbAndUI(newAmountInStorageValue, selectAll, selectedProduct);
+            InputFieldsCanBeClearedEvent?.Invoke();
         }
 
         private async Task SendProductToBasket(ProductUI selectedProduct, int countToSend)
@@ -446,7 +447,7 @@ namespace StoreApp.UI.WPF.ViewModels
                 selectedProduct.AmountInStorage = newAmountInStorageValue;
             }
 
-            DeleteProductByCountCompleteEvent?.Invoke();
+            InputFieldsCanBeClearedEvent?.Invoke();
         }
 
 
